@@ -6,14 +6,14 @@ use Livewire\Component;
 
 class Login extends Component
 {
-    public $form = [
+    public array $form = [
         'email' => '',
         'password' => '',
     ];
 
     public function render()
     {
-        return view('livewire.auth.login')->layout('layouts.app');
+        return view('livewire.auth.login');
     }
 
     public function submit()
@@ -27,8 +27,11 @@ class Login extends Component
             'form.password.required' => 'رمز ورود ضروری است',
         ]);
 
-        auth()->attempt($this->form);
+        if (auth()->attempt($this->form)){
+            return redirect(route('home'));
+        }
 
-        return redirect(route('home'));
+        return redirect(route('login'))->with('error' , 'failed');
+
     }
 }

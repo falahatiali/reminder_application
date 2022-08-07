@@ -11,7 +11,7 @@
         .form-signin {
             width: 100%;
             max-width: 330px;
-            padding: 15px;
+            padding: 0px;
             margin: auto;
         }
 
@@ -40,20 +40,20 @@
 <div class="divLogin">
     <main class="form-signin">
         <form wire:submit.prevent="submit" class="d-flex flex-column justify-content-between">
-            <h1 class="h5 mb-3 fw-normal text-center">ورود</h1>
+            <h1 class="h5 mb-3 fw-normal text-center">Sign In</h1>
             <div class="form-floating">
                 <input type="email" wire:model="form.email" class="form-control text-center {{ $errors->has('form.email')?'is-invalid':'' }}" id="floatingEmail" placeholder="name@example.com">
-                <label for="floatingEmail" class="text-center">نام کاربری یا ایمیل</label>
+                <label for="floatingEmail" class="text-center">Email</label>
                 @error('form.email') <span class="text-danger text-center" style="direction: rtl;float: right">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-floating">
                 <input type="password" wire:model="form.password" class="form-control text-center {{ $errors->has('form.password')?'is-invalid':'' }}" id="floatingPassword" placeholder="رمز ورود">
-                <label for="floatingPassword" class="text-center">رمز ورود</label>
+                <label for="floatingPassword" class="text-center">Password</label>
                 @error('form.password') <span class="text-danger text-center" style="direction: rtl;float: right">{{ $message }}</span> @enderror
             </div>
 
-            <button type="submit" class="w-100 mt-5 btn btn-lg btn-primary">ورود </button>
+            <button type="submit" class="w-100 mt-5 btn btn-lg btn-primary">Sign-in </button>
         </form>
     </main>
 </div>

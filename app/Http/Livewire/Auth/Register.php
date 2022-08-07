@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire\Auth;
 
+use App\Models\User;
 use Livewire\Component;
 
 class Register extends Component
 {
-    public $form = [
+    public array $form = [
         'name'      => '',
         'username'  => '',
         'email'     => '',
