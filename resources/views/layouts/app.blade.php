@@ -22,8 +22,8 @@
                 </div>
             @else
                 <div class="d-flex flex-row-reverse flex-nowrap align-content-center justify-content-center align-self-center">
-                    <span class="mt-2"> خوش آمدید {{ auth()->user()->name }}</span>&nbsp;
                     <livewire:auth.logout />
+                    <span class="m-3 mb-2 mt-2"> Your welcome {{ auth()->user()->name }}</span>&nbsp;
                 </div>
             @endif
 
