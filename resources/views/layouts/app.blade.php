@@ -48,11 +48,11 @@
     {{ $slot }}
 @endif
 
-<footer class="footer mt-auto py-5 bg-light">
-    <div class="container">
-        <span class="text-muted">Place sticky footer content here.</span>
-    </div>
-</footer>
+{{--<footer class="footer mt-auto py-5 bg-light">--}}
+{{--    <div class="container">--}}
+{{--        <span class="text-muted">Place sticky footer content here.</span>--}}
+{{--    </div>--}}
+{{--</footer>--}}
 
 @livewireScripts
 
