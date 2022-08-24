@@ -1,0 +1,18 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+@import "../css/fontiran.css";
+
+body {
+    font-family: IRANSans, sans-serif !important;
+    padding-top: 0;
+    margin-top: 0;
+    padding-bottom: 3rem;
+    color: #5a5a5a;
+}
