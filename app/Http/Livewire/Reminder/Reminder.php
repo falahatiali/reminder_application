@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Reminder;
 use App\Helpers\Date;
 use App\Http\Requests\Reminder\CreateReminderRequest;
 use App\Models\ReminderModel;
+use App\Models\User;
 use App\Scheduler\MyCronExpression;
 use Cron\CronExpression;
 use Illuminate\Support\Arr;
@@ -63,7 +64,7 @@ class Reminder extends Component
         $expression = $this->buildCronExpression($this->all());
 
         if (MyCronExpression::isValidExpression($expression)) {
-            ReminderModel::query()->create([
+            auth()->user()->reminders()->create([
                 'body' => $this->body,
                 'frequency' => $this->frequency,
                 'expression' => $expression,

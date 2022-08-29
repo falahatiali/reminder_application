@@ -51,4 +51,9 @@ class User extends Authenticatable
             $user->password = bcrypt($user->password);
         });
     }
+
+    public function reminders()
+    {
+        return $this->hasMany(ReminderModel::class);
+    }
 }

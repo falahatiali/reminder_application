@@ -13,11 +13,13 @@ Route::get('/', function () {
 //Auth::routes();
 
 Route::get('/home', Home::class)->name('home');
-Route::get("/login" , Login::class)->name('login');
-Route::get("/register" , Register::class)->name('register');
-Route::get("/reminders" , Reminder::class);
+Route::get("/login", Login::class)->name('login');
+Route::get("/register", Register::class)->name('register');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get("/reminders", Reminder::class);
+});
 
 
-Route::get('test', function (){
+Route::get('test', function () {
     dd(new \App\Scheduler\MyCronExpression('@everyTwoMinutes'));
 });
