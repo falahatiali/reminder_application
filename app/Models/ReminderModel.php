@@ -14,6 +14,11 @@ class ReminderModel extends Model
 
     protected $guarded = [];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function getFrequencyAttribute($value)
     {
         return Arr::get(Date::frequencies(), $value);

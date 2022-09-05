@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('time')->nullable();
             $table->string('expression');
             $table->boolean('run_once')->default(false);
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
