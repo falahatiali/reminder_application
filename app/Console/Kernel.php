@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule)
     {
-        Log::error("STARTTTTTTTTT");
+        Log::error("****************** Start cron job processing ************************ ");
         User::query()->with('reminders')->each(function ($user) use ($schedule) {
             $user->reminders()->each(function ($reminder) use ($user, $schedule) {
                 return $schedule->call(function () use ($reminder) {
@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
                 })->cron($reminder->expression);
             });
         });
+        Log::error("****************** END ************************ ");
     }
 
     /**
