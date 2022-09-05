@@ -1,0 +1,123 @@
+version: '3'
+
+services:
+    nginx:
+        build:
+            context: docker/nginx
+            dockerfile: Dockerfile
+            args:
+                - NGINXUSER=${NGINXUSER:-www-data}
+                - NGINXGROUP=${NGINXGROUP:-www-data}
+        container_name: nginx
+        ports:
+            - '${APP_PORT:-80}:80'
+        volumes:
+            - .:/var/www/html:delegated
+        restart: unless-stopped
+        depends_on:
+            - backend
+            - redis
+        networks:
+            - reminder_network
+
+    backend:
+        build:
+            context: .
+            dockerfile: laravel.dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        container_name: backend
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+        volumes:
+            - '.:/var/www/html'
+        restart: unless-stopped
+        networks:
+            - reminder_network
+        depends_on:
+            - redis
+            - mysql
+
+    scheduler:
+        build:
+            context: .
+            dockerfile: scheduler.dockerfile
+        container_name: scheduler
+        volumes:
+            - '.:/var/www/html'
+        restart: unless-stopped
+        networks:
+            - reminder_network
+        depends_on:
+            - redis
+            - backend
+            - mysql
+
+    redis:
+        image: redis:alpine
+        container_name: redis
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        volumes:
+            - 'reminder_redis_vol:/data'
+        restart: unless-stopped
+        networks:
+            - reminder_network
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ]
+
+    memcached:
+        image: memcached:alpine
+        container_name: memcached
+        ports:
+            - '11211:11211'
+        restart: unless-stopped
+        networks:
+            - reminder_network
+
+    meiliserach:
+        image: getmeili/meilisearch:latest
+        container_name: meiliserach
+        ports:
+            - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
+        volumes:
+            - 'reminder_meilisearch_vol:/data.ms'
+        restart: unless-stopped
+        networks:
+            - reminder_network
+
+    mysql:
+        image: 'mysql/mysql-server:8.0'
+        container_name: mysql
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - 'reminder_mysql_vol:/var/lib/mysql'
+        restart: on-failure
+        networks:
+            - reminder_network
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
+            retries: 3
+            timeout: 5s
+
+
+networks:
+    reminder_network:
+        driver: bridge
+
+volumes:
+    reminder_mysql_vol:
+        driver: local
+    reminder_redis_vol:
+        driver: local
+    reminder_meilisearch_vol:
+        driver: local
