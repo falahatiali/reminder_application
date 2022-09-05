@@ -2,14 +2,8 @@
 
 namespace App\Library\Reminder;
 
-use App\Contracts\ReminderContract;
-use App\Http\Livewire\Reminder\Reminder;
 use App\Models\ReminderModel;
-use App\Models\User;
-use App\Scheduler\SendReminder;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class TelegramReminder
 {
