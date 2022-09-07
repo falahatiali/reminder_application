@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->string('frontend')->nullable();
             $table->string('backend')->nullable();
             $table->text('body')->nullable();
+            $table->text('additional_text')->nullable();
+            $table->string('reminder_type')->nullable();
             $table->unsignedInteger('category_id')->nullable();
             $table->string('frequency', 255);
             $table->integer('day')->nullable();

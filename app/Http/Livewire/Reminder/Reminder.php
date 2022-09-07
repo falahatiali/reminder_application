@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Reminder;
 
 use App\Helpers\Date;
 use App\Http\Requests\Reminder\CreateReminderRequest;
+use App\Library\Reminder\ReminderTypes;
 use App\Models\ReminderModel;
 use App\Models\User;
 use App\Scheduler\MyCronExpression;
@@ -17,6 +18,10 @@ class Reminder extends Component
     use WithPagination;
 
     public $body;
+    public $frontend;
+    public $backend;
+    public $additional_text;
+    public $reminder_type = ReminderTypes::LEITNER_BOX;
     public $frequency;
     public $time;
     public $expression;
@@ -50,6 +55,9 @@ class Reminder extends Component
     {
         $this->body = '';
         $this->frequency = '';
+        $this->frontend = '';
+        $this->backend = '';
+        $this->additional_text = '';
         $this->date = '';
         $this->day = '';
         $this->time = '';
@@ -66,6 +74,9 @@ class Reminder extends Component
         if (MyCronExpression::isValidExpression($expression)) {
             auth()->user()->reminders()->create([
                 'body' => $this->body,
+                'frontend' => $this->frontend,
+                'backend' => $this->backend,
+                'additional_text' => $this->additional_text,
                 'frequency' => $this->frequency,
                 'expression' => $expression,
                 'date' => $this->date,

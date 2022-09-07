@@ -24,7 +24,7 @@ class CreateReminderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'body' => 'required',
+//            'body' => 'string',
             'frequency' => 'required',
 //            'day' => 'string',
 //            'date' => 'string',

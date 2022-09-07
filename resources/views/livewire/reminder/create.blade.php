@@ -2,11 +2,18 @@
     <form wire:submit.prevent="store" method="POST">
         <div class="row">
             <div class="form-group mb-2 col">
-                <label for="body" class="sr-only">Reminder Body</label>
-                <input type="text" class="form-control mt-1" id="body" placeholder="Body"
-                       wire:model.defer="body">
-                @error('body') <span class="text-danger">{{ $message }}</span>@enderror
+                <label for="frontend" class="sr-only">Front of the card</label>
+                <input type="text" class="form-control mt-1" id="frontend" placeholder="Front"
+                       wire:model.defer="frontend">
+                @error('frontend') <span class="text-danger">{{ $message }}</span>@enderror
             </div>
+            <div class="form-group mb-2 col">
+                <label for="backend" class="sr-only">Backend of the card</label>
+                <input type="text" class="form-control mt-1" id="backend" placeholder="Backend"
+                       wire:model.defer="backend">
+                @error('backend') <span class="text-danger">{{ $message }}</span>@enderror
+            </div>
+
             <div class="form-group mb-2 col">
                 <label for="frequency">Reminder Frequency ...</label>
                 <select name="frequency" id="frequency" class="form-control mt-1" wire:model.defer="frequency"
@@ -32,6 +39,20 @@
             </div>
         </div>
 
+        <div class="row mt-3">
+            <div class="form-group mb-2 col">
+                <label for="body" class="sr-only">Reminder Body</label>
+                <input type="text" class="form-control mt-1" id="body" placeholder="Body"
+                       wire:model.defer="body">
+                @error('body') <span class="text-danger">{{ $message }}</span>@enderror
+            </div>
+            <div class="form-group mb-2 col">
+                <label for="additional_text" class="sr-only">Additional Text</label>
+                <input type="text" class="form-control mt-1" id="additional_text" placeholder="Body"
+                       wire:model.defer="additional_text">
+                @error('additional_text') <span class="text-danger">{{ $message }}</span>@enderror
+            </div>
+        </div>
         <div class="row mt-3">
             <div class="form-group mb-2 col">
                 <label for="date" class="sr-only">Date</label>
