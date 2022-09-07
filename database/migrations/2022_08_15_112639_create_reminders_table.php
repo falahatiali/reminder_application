@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,15 +14,22 @@ return new class extends Migration
     {
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
-            $table->string('body' , 255);
-            $table->string('frequency' , 255);
+            $table->string('frontend')->nullable();
+            $table->string('backend')->nullable();
+            $table->text('body')->nullable();
+            $table->text('additional_text')->nullable();
+            $table->string('reminder_type')->nullable();
+            $table->unsignedInteger('category_id')->nullable();
+            $table->string('frequency', 255);
             $table->integer('day')->nullable();
             $table->integer('date')->nullable();
             $table->string('time')->nullable();
             $table->string('expression');
             $table->boolean('run_once')->default(false);
+            $table->boolean('active')->default(true);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
