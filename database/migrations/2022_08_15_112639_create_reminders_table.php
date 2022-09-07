@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->string('time')->nullable();
             $table->string('expression');
             $table->boolean('run_once')->default(false);
+            $table->boolean('active')->default(true);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

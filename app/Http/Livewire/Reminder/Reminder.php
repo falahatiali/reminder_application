@@ -28,6 +28,7 @@ class Reminder extends Component
     public $day;
     public $date;
     public $run_once;
+    public $active;
 
     public $showTime = true;
     public $showDay = true;
@@ -157,5 +158,15 @@ class Reminder extends Component
             $this->showDate = false;
             $this->showTime = false;
         }
+    }
+
+    public function ChangeStatus($id)
+    {
+        $reminder = ReminderModel::query()->find($id);
+        $reminder->update([
+            'active' => !$reminder->active
+        ]);
+
+        return true;
     }
 }

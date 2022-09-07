@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
     {
         Log::error("****************** Start cron job processing ************************ ");
         User::query()->with('reminders')->each(function ($user) use ($schedule) {
-            $user->reminders()->each(function ($reminder) use ($user, $schedule) {
+            $user->reminders()->active()->each(function ($reminder) use ($user, $schedule) {
                 return $schedule->call(function () use ($reminder) {
                     $reminderAgent = app(TelegramReminder::class, ['reminder' => $reminder]);
                     $reminderAgent->SendReminder();
