@@ -33,6 +33,7 @@
                     <th scope="col">Date</th>
                     <th scope="col">Time</th>
                     <th scope="col">Run Once?</th>
+                    <th scope="col">Active Or not</th>
                     <th scope="col">&nbsp;</th>
                 </tr>
                 </thead>
@@ -49,15 +50,17 @@
                         <td>{{ $reminder->time }}</td>
                         <td>{{ $reminder->run_once ? 'Yes' : 'No'}}</td>
                         <td>
-                            <button wire:click="edit({{ $reminder->id }})" class="btn btn-primary btn-sm">Edit</button>
-                            <button wire:click="delete({{ $reminder->id }})" class="btn btn-danger btn-sm">Delete
-                            </button>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" wire:click="ChangeStatus({{ $reminder->id }})"
                                        value="{{ $reminder->id }}" type="checkbox"
                                        role="switch" {{ $reminder->active == true ? 'checked' :'' }}>
                                 <label class="form-check-label" for="flexSwitchCheckDefault"></label>
                             </div>
+                        </td>
+                        <td>
+                            <button wire:click="edit({{ $reminder->id }})" class="btn btn-primary btn-sm">Edit</button>
+                            <button wire:click="delete({{ $reminder->id }})" class="btn btn-danger btn-sm">Delete
+                            </button>
                         </td>
                     </tr>
                 @endforeach
