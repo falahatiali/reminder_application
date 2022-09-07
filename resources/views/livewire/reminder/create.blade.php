@@ -77,6 +77,14 @@
                 </select>
                 @error('time') <span class="text-danger">{{ $message }}</span>@enderror
             </div>
+            <div class="form-group mb-2 col">
+                <label for="active" class="sr-only">Status (Activate | Deactivate)</label>
+                <select name="active" id="active" class="form-control mt-1" wire:model.defer="active">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+                @error('active') <span class="text-danger">{{ $message }}</span>@enderror
+            </div>
         </div>
 
         <div class="align-content-center">

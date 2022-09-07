@@ -39,4 +39,9 @@ class ReminderModel extends Model
         };
         return Date::ordinal($value);
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
 }

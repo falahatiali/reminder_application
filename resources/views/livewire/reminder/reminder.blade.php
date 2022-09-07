@@ -48,6 +48,12 @@
                             <button wire:click="edit({{ $reminder->id }})" class="btn btn-primary btn-sm">Edit</button>
                             <button wire:click="delete({{ $reminder->id }})" class="btn btn-danger btn-sm">Delete
                             </button>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" wire:click="ChangeStatus({{ $reminder->id }})"
+                                       value="{{ $reminder->id }}" type="checkbox"
+                                       role="switch" {{ $reminder->active == true ? 'checked' :'' }}>
+                                <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
