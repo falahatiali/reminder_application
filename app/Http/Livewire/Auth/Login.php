@@ -16,7 +16,7 @@ class Login extends Component
         if (auth()->guest()) {
             return view('livewire.auth.login');
         }
-        
+
         return view('livewire.home')->layout('layouts.app');
     }
 
