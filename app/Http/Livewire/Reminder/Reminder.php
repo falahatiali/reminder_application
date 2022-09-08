@@ -6,10 +6,8 @@ use App\Helpers\Date;
 use App\Http\Requests\Reminder\CreateReminderRequest;
 use App\Library\Reminder\ReminderTypes;
 use App\Models\ReminderModel;
-use App\Models\User;
 use App\Scheduler\MyCronExpression;
-use Cron\CronExpression;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -17,6 +15,9 @@ class Reminder extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
+    public $selected_id;
     public $body;
     public $frontend;
     public $backend;
@@ -46,7 +47,7 @@ class Reminder extends Component
 
     public function render()
     {
-        $reminders = ReminderModel::query()->latest()->paginate(10);
+        $reminders = ReminderModel::query()->latest()->paginate(request()->get('perPage') ?? 10);
         return view('livewire.reminder.reminder', [
             'reminders' => $reminders
         ]);
@@ -86,23 +87,57 @@ class Reminder extends Component
             ]);
         }
         $this->resetInputs();
-
-        $this->render();
     }
 
     public function edit($id)
     {
+        $reminder = ReminderModel::query()->find($id);
 
+        $this->body = $reminder->body;
+        $this->selected_id = $reminder->id;
+        $this->frontend = $reminder->frontend;
+        $this->backend = $reminder->backend;
+        $this->additional_text = $reminder->additional_text;
+        $this->reminder_type = $reminder->reminder_type;
+        $this->frequency = array_keys(Date::frequencies(), $reminder->frequency)[0];
+        $this->time = $reminder->time;
+        $this->expression = $reminder->expression;
+        $this->day = array_keys(Date::days(), $reminder->day)[0];
+        $this->date = $reminder->date;
+        $this->run_once = $reminder->run_once;
+        $this->active = $reminder->active;
+        $this->changeFrequencyValue($this->frequency);
+        $this->updateMode = true;
     }
 
     public function update()
     {
+        if ($this->selected_id) {
+            $reminder = ReminderModel::query()->find($this->selected_id);
+            $expression = $this->buildCronExpression($this->all());
+            $reminder->update([
+                'body' => $this->body,
+                'frontend' => $this->frontend,
+                'backend' => $this->backend,
+                'additional_text' => $this->additional_text,
+                'frequency' => $this->frequency,
+                'expression' => $expression,
+                'date' => $this->date,
+                'day' => $this->day,
+                'time' => $this->time,
+            ]);
 
+            $this->resetInputs();
+            $this->updateMode = false;
+        }
     }
 
     public function delete($id)
     {
-
+        $reminder = ReminderModel::query()->find($id);
+        if ($reminder){
+            $reminder->delete();
+        }
     }
 
     public function buildCronExpression(array $params)
@@ -160,7 +195,7 @@ class Reminder extends Component
         }
     }
 
-    public function ChangeStatus($id)
+    public function changeStatus($id)
     {
         $reminder = ReminderModel::query()->find($id);
         $reminder->update([

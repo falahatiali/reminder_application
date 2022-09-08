@@ -2,7 +2,8 @@
 
 namespace App\Console;
 
-use App\Library\Reminder\TelegramReminder;
+use App\Library\Reminder\Channels\TelegramReminder;
+use App\Library\Reminder\SendReminder;
 use App\Models\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -16,8 +17,10 @@ class Kernel extends ConsoleKernel
         User::query()->with('reminders')->each(function ($user) use ($schedule) {
             $user->reminders()->active()->each(function ($reminder) use ($user, $schedule) {
                 return $schedule->call(function () use ($reminder) {
-                    $reminderAgent = app(TelegramReminder::class, ['reminder' => $reminder]);
-                    $reminderAgent->SendReminder();
+                    $sendReminder = app(SendReminder::class , ['reminder' => $reminder]);
+                    $sendReminder->sendReminder();
+//                    $reminderAgent = app(TelegramReminder::class, ['reminder' => $reminder]);
+//                    $reminderAgent->SendReminder();
                 })->cron($reminder->expression);
             });
         });

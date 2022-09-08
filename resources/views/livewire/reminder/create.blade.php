@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent="store" method="POST">
+    <form method="POST">
         <div class="row">
             <div class="form-group mb-2 col">
                 <label for="frontend" class="sr-only">Front of the card</label>
@@ -88,7 +88,7 @@
         </div>
 
         <div class="align-content-center">
-            <button class="btn btn-lg btn-outline-success btn-toolbar mb-2">Create new Reminder</button>
+            <button wire:click.prevent="store" class="btn btn-lg btn-outline-success btn-toolbar mb-2">Create new Reminder</button>
         </div>
     </form>
 </div>

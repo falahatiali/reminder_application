@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Contracts\SendMessageContract;
+use App\Library\Reminder\Channels\TelegramReminder;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->singleton(SendMessageContract::class , TelegramReminder::class);
     }
 }

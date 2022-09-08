@@ -51,7 +51,7 @@
                         <td>{{ $reminder->run_once ? 'Yes' : 'No'}}</td>
                         <td>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" wire:click="ChangeStatus({{ $reminder->id }})"
+                                <input class="form-check-input" wire:click="changeStatus({{ $reminder->id }})"
                                        value="{{ $reminder->id }}" type="checkbox"
                                        role="switch" {{ $reminder->active == true ? 'checked' :'' }}>
                                 <label class="form-check-label" for="flexSwitchCheckDefault"></label>
@@ -65,7 +65,11 @@
                     </tr>
                 @endforeach
                 </tbody>
+
             </table>
+            <div class="d-flex justify-content-center">
+                {{ $reminders->links() }}
+            </div>
         @else
             <p>You have no reminders.</p>
         @endif
