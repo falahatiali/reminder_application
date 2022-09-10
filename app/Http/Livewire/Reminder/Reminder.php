@@ -7,7 +7,6 @@ use App\Http\Requests\Reminder\CreateReminderRequest;
 use App\Library\Reminder\ReminderTypes;
 use App\Models\ReminderModel;
 use App\Scheduler\MyCronExpression;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -102,11 +101,11 @@ class Reminder extends Component
         $this->frequency = array_keys(Date::frequencies(), $reminder->frequency)[0];
         $this->time = $reminder->time;
         $this->expression = $reminder->expression;
-        $this->day = array_keys(Date::days(), $reminder->day)[0];
+        $this->day = array_keys(Date::days(), $reminder->day)[0] ?? $reminder->day;
         $this->date = $reminder->date;
         $this->run_once = $reminder->run_once;
         $this->active = $reminder->active;
-        $this->changeFrequencyValue($this->frequency);
+        $this->changeFrequencyValue($reminder->frequency);
         $this->updateMode = true;
     }
 
@@ -128,16 +127,17 @@ class Reminder extends Component
             ]);
 
             $this->resetInputs();
+            $reminder->refresh();
             $this->updateMode = false;
         }
+
+        $this->render();
     }
 
     public function delete($id)
     {
         $reminder = ReminderModel::query()->find($id);
-        if ($reminder){
-            $reminder->delete();
-        }
+        $reminder?->delete();
     }
 
     public function buildCronExpression(array $params)

@@ -8,26 +8,29 @@ use Livewire\Component;
 class Register extends Component
 {
     public array $form = [
-        'name'      => '',
-        'username'  => '',
-        'email'     => '',
-        'password'  => '',
+        'name' => '',
+        'username' => '',
+        'email' => '',
+        'password' => '',
     ];
 
     public function render()
     {
-        return view('livewire.auth.register')
-            ->layout('layouts.app');
+        if (!auth()->check()) {
+            return view('livewire.auth.register')
+                ->layout('layouts.app');
+        }
+        return view('livewire.home')->layout('layouts.app');
     }
 
     public function submit()
     {
         $this->validate([
-            'form.email'      => 'required|email',
-            'form.name'       =>  'required',
-            'form.username'   => 'required',
-            'form.password'   => 'required',
-        ],[
+            'form.email' => 'required|email',
+            'form.name' => 'required',
+            'form.username' => 'required',
+            'form.password' => 'required',
+        ], [
             'form.email.required' => 'ایمیل ضروری است',
             'form.email.email' => 'فرمت ایمیل اشتباه است',
             'form.name.required' => 'نام ضروری است',
@@ -35,8 +38,9 @@ class Register extends Component
             'form.password.required' => 'رمز ورود ضروری است',
         ]);
 
-        User::query()->create($this->form);
+        $user = User::create($this->form);
 
-        return redirect(route('login'));
+        auth()->login($user);
+        return redirect(route('home'));
     }
 }

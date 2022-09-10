@@ -1,4 +1,7 @@
-<div class="mt-4">
+<div class="mt-4" >
+    <div wire:poll.4500ms>
+        <h6 class="d-flex justify-content-center bg-body p-2 mb-1 bg-info">{{ now() }}</h6>
+    </div>
     <div class="p-4 pl-5">
         @if (count($errors) > 0)
             <div class="alert alert-danger">

@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent="update" method="PATCH">
+    <form>
         <input type="hidden" wide:model="selected_id">
         <div class="row">
             <div class="form-group mb-2 col">
@@ -94,7 +94,7 @@
         </div>
 
         <div class="align-content-center">
-            <button class="btn btn-lg btn-outline-info btn-toolbar mb-2">Update Reminder</button>
+            <button wire:click.prevent="update()" class="btn btn-lg btn-outline-info btn-toolbar mb-2">Update Reminder</button>
         </div>
     </form>
 </div>
