@@ -26,12 +26,12 @@ build-job: # This job runs in the build stage, which runs first.
     - docker image ls -a
     - echo $TAG_LATEST
      #registry.gitlab.com/alifalahati/reminders/reminder_nginx:latest
-    - docker tag reminder-nginx $CI_REGISTRY_IMAGE/reminder_nginx:latest
-    - docker tag reminder-backend $CI_REGISTRY_IMAGE/reminder_backend:latest
-    - docker tag reminders-scheduler $CI_REGISTRY_IMAGE/reminder_scheduler:latest
-    - docker push reminder-nginx $CI_REGISTRY_IMAGE/reminder_nginx:latest
-    - docker push reminder-nginx $CI_REGISTRY_IMAGE/reminder_backend:latest
-    - docker push reminder-nginx $CI_REGISTRY_IMAGE/reminder_scheduler:latest
+    - docker tag reminders-nginx $CI_REGISTRY_IMAGE/reminders_nginx:latest
+    - docker tag reminders-backend $CI_REGISTRY_IMAGE/reminders_backend:latest
+    - docker tag reminders-scheduler $CI_REGISTRY_IMAGE/reminders_scheduler:latest
+    - docker push $CI_REGISTRY_IMAGE/reminders_nginx:latest
+    - docker push $CI_REGISTRY_IMAGE/reminders_backend:latest
+    - docker push $CI_REGISTRY_IMAGE/reminders_scheduler:latest
 
 unit-test-job: # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
