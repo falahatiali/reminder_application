@@ -60,6 +60,8 @@ deploy-job:
   environment: production
   script:
     - echo "Deploying application..."
+    - pwd
+    - ls -alh
     - cp /home/ubuntu/.env .env
     - docker-compose -f docker-compose-prod.yml up -d
     - echo "Application successfully deployed."
