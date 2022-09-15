@@ -22,7 +22,7 @@ build-job:
     - docker-compose build
     - docker image ls -a
     - echo $TAG_LATEST
-     #registry.gitlab.com/alifalahati/reminders/reminder_nginx:latest
+    #registry.gitlab.com/alifalahati/reminders/reminder_nginx:latest
     - docker tag reminders-nginx $CI_REGISTRY_IMAGE/reminders_nginx:latest
     - docker tag reminders-backend $CI_REGISTRY_IMAGE/reminders_backend:latest
     - docker tag reminders-scheduler $CI_REGISTRY_IMAGE/reminders_scheduler:latest
@@ -49,18 +49,31 @@ lint-test-job: # This job also runs in the test stage.
     - sleep 10
     - echo "No lint issues found."
 
-deploy-job:
-  image: docker:latest
+deploy:
+  image: alpine:latest
   stage: deploy
-  services:
-    - docker:19.03.0-dind
   only:
     - feature/cicd
-  environment: production
+  tags:
+    - deployment
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - echo "Deploying application..."
-    - cp .env.example .env
-    - docker-compose -f docker-compose-prod.yml pull
-    - docker-compose -f docker-compose-prod.yml up -d
-    - echo "Application successfully deployed."
+    - chmod og= $ID_RSA
+    - apk update && apk add openssh-client
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker-compose -f docker-compose-prod.yml up -d"
+
+#deploy-job:
+#  image: docker:latest
+#  stage: deploy
+#  services:
+#    - docker:19.03.0-dind
+#  only:
+#    - feature/cicd
+#  environment: production
+#  script:
+#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#    - echo "Deploying application..."
+#    - cp .env.example .env
+#    - docker-compose -f docker-compose-prod.yml pull
+#    - docker-compose -f docker-compose-prod.yml up -d
+#    - echo "Application successfully deployed."
