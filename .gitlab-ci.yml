@@ -12,7 +12,7 @@ build-job: # This job runs in the build stage, which runs first.
     - feature/cicd
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-    TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
+    TAG_LATEST: $CI_REGISTRY_IMAGE:latest
     TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_REF_SHORT_SHA
 
   before_script:
@@ -23,11 +23,15 @@ build-job: # This job runs in the build stage, which runs first.
 
   script:
     - docker-compose build
-    - docker image ls -a 
+    - docker image ls -a
     - echo $TAG_LATEST
-#    - docker tag reminder_nginx $IMAGE_TAG
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+     #registry.gitlab.com/alifalahati/reminders/reminder_nginx:latest
+    - docker tag reminder-nginx $CI_REGISTRY_IMAGE/reminder_nginx:latest
+    - docker tag reminder-backend $CI_REGISTRY_IMAGE/reminder_backend:latest
+    - docker tag reminders-scheduler $CI_REGISTRY_IMAGE/reminder_scheduler:latest
+    - docker push reminder-nginx $CI_REGISTRY_IMAGE/reminder_nginx:latest
+    - docker push reminder-nginx $CI_REGISTRY_IMAGE/reminder_backend:latest
+    - docker push reminder-nginx $CI_REGISTRY_IMAGE/reminder_scheduler:latest
 
 unit-test-job: # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
