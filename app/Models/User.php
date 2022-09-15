@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -22,16 +23,11 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
+        'mobile',
+        'timezone',
+        'telegram_id',
+        'password_raw',
+        'login_attempts',
     ];
 
     /**
@@ -43,17 +39,42 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static function boot()
+    /**
+     * @return void
+     */
+    public static function boot(): void
     {
         parent::boot();
 
-        static::creating(function ($user){
+        static::creating(function ($user) {
             $user->password = bcrypt($user->password);
         });
     }
 
-    public function reminders()
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'password_raw',
+        'remember_token',
+    ];
+
+    /**
+     * @return HasMany
+     */
+    public function reminders(): HasMany
     {
         return $this->hasMany(ReminderModel::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function telegramEntity(): HasMany
+    {
+        return $this->hasMany(TelegramModel::class);
     }
 }

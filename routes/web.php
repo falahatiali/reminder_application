@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TelegramWebhookController;
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Home;
@@ -19,6 +20,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get("/reminders", Reminder::class);
 });
 
+Route::get('telegram/webhook', [TelegramWebhookController::class, 'getWebhook']);
+Route::get('telegram/getUpdate', [TelegramWebhookController::class, 'getWebhook']);
 
 Route::get('test', function () {
     dd(new \App\Scheduler\MyCronExpression('@everyTwoMinutes'));
