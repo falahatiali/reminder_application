@@ -62,6 +62,7 @@ deploy-job:
     - echo "Deploying application..."
     - pwd
     - cp .env.example .env
-    - echo $DB_PASSWORD
+    - docker version
+    - docker-compose version 
     - docker-compose -f docker-compose-prod.yml up -d
     - echo "Application successfully deployed."
