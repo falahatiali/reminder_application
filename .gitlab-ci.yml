@@ -53,8 +53,10 @@ lint-test-job: # This job also runs in the test stage.
     - echo "No lint issues found."
 
 deploy-job:
-  stage: deploy
   image: docker:latest
+  stage: deploy
+  services:
+    - docker:19.03.0-dind
   only:
     - feature/cicd
   environment: production
@@ -63,6 +65,6 @@ deploy-job:
     - pwd
     - cp .env.example .env
     - docker version
-    - docker-compose version 
+    - docker-compose version
     - docker-compose -f docker-compose-prod.yml up -d
     - echo "Application successfully deployed."
