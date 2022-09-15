@@ -60,6 +60,7 @@ deploy-job:
   environment: production
   script:
     - echo "Deploying application..."
-    - ls
+    - echo $USER
+    - sudo apt update
     - docker-compose -f docker-compose-prod.yml up -d
     - echo "Application successfully deployed."
