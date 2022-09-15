@@ -43,7 +43,7 @@ unit-test-job:
 lint-test-job: # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   only:
-    - feature/cicd
+    - feature/cicd2
   script:
     - echo "Linting code... This will take about 10 seconds."
     - sleep 10
@@ -54,8 +54,6 @@ deploy:
   stage: deploy
   only:
     - feature/cicd
-  tags:
-    - deployment
   script:
     - chmod og= $ID_RSA
     - apk update && apk add openssh-client
