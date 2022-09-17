@@ -60,6 +60,7 @@ init:
     - pwd
     - echo $USER
 
+
 #deploy:
 #  image: alpine:latest
 #  stage: deploy
