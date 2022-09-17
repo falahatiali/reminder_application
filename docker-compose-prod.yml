@@ -14,22 +14,18 @@ volumes:
 
 services:
   nginx:
-    image: registry.gitlab.com/alifalahati/reminders/reminders_nginx:latest
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+      args:
+        - NGINXUSER=${NGINXUSER:-www-data}
+        - NGINXGROUP=${NGINXGROUP:-www-data}
     container_name: nginx
     ports:
       - '${APP_PORT:-80}:80'
     volumes:
       - .:/var/www/html:delegated
     restart: unless-stopped
-    entrypoint:
-      - adduser
-      - -g
-      - www-data
-      - -s
-      - /bin/sh
-      - -D
-      - www-data
-      - exit 0
     depends_on:
       - backend
       - redis
