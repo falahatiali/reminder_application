@@ -21,6 +21,15 @@ services:
     volumes:
       - .:/var/www/html:delegated
     restart: unless-stopped
+    entrypoint:
+      - adduser
+      - -g
+      - www-data
+      - -s
+      - /bin/sh
+      - -D
+      - www-data
+      - exit 0
     depends_on:
       - backend
       - redis
@@ -38,7 +47,6 @@ services:
       - -y
       - /usr/local/etc/php-fpm.conf
       - -R
-#      - ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
     networks:
       - reminder_network
     depends_on:
@@ -51,6 +59,10 @@ services:
     volumes:
       - '.:/var/www/html'
     restart: unless-stopped
+    entrypoint:
+      - supervisord
+      - -c
+      - /etc/supervisor/supervisord.conf
     networks:
       - reminder_network
     depends_on:
