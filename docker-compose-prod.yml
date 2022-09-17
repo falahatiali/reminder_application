@@ -1,5 +1,17 @@
 version: '3'
 
+networks:
+  reminder_network:
+    driver: bridge
+
+volumes:
+  reminder_mysql_vol:
+    driver: local
+  reminder_redis_vol:
+    driver: local
+  reminder_meilisearch_vol:
+    driver: local
+
 services:
   nginx:
     image: registry.gitlab.com/alifalahati/reminders/reminders_nginx:latest
@@ -16,7 +28,7 @@ services:
       - reminder_network
 
   backend:
-    image: registry.gitlab.com/alifalahati/reminders/reminders_backend
+    image: registry.gitlab.com/alifalahati/reminders/reminders_backend:latest
     container_name: backend
     volumes:
       - '.:/var/www/html'
@@ -28,7 +40,7 @@ services:
       - mysql
 
   scheduler:
-    image: registry.gitlab.com/alifalahati/reminders/reminders_scheduler
+    image: registry.gitlab.com/alifalahati/reminders/reminders_scheduler:latest
     container_name: scheduler
     volumes:
       - '.:/var/www/html'
@@ -74,15 +86,3 @@ services:
       test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
       retries: 3
       timeout: 5s
-
-networks:
-  reminder_network:
-    driver: bridge
-
-volumes:
-  reminder_mysql_vol:
-    driver: local
-  reminder_redis_vol:
-    driver: local
-  reminder_meilisearch_vol:
-    driver: local
