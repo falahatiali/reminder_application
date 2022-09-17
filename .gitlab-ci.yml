@@ -1,4 +1,5 @@
 stages:
+  - init
   - build
   - test
   - deploy
@@ -49,18 +50,27 @@ lint-test-job: # This job also runs in the test stage.
     - sleep 10
     - echo "No lint issues found."
 
-
-deploy:
-  image: alpine:latest
-  stage: deploy
+init:
+  stage: init
   only:
     - feature/cicd
   script:
-    - chmod og= $ID_RSA
     - ls
-    - apk update && apk add openssh-client
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker-compose -f docker-compose-prod.yml up -d"
+    - ip a
+    - pwd
+    - echo $USER
+
+#deploy:
+#  image: alpine:latest
+#  stage: deploy
+#  only:
+#    - feature/cicd
+#  script:
+#    - chmod og= $ID_RSA
+#    - ls
+#    - apk update && apk add openssh-client
+#    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+#    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker-compose -f docker-compose-prod.yml up -d"
 
 
 #deploy-job:
