@@ -75,7 +75,6 @@ services:
       retries: 3
       timeout: 5s
 
-
 networks:
   reminder_network:
     driver: bridge
