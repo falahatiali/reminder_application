@@ -33,8 +33,12 @@ services:
     volumes:
       - '.:/var/www/html'
     restart: unless-stopped
-    command:
-      - ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
+    entrypoint:
+      - php-fpm
+      - -y
+      - /usr/local/etc/php-fpm.conf
+      - -R
+#      - ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
     networks:
       - reminder_network
     depends_on:
