@@ -24,50 +24,51 @@ class TelegramWebhookController extends Controller
 //        $text ='{"ok":true,"result":[{"update_id":460984396,"message":{"message_id":63,"from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663227599,"text":"This is additional text"}}]}';
 
         if (is_string($text)) {
-            $text = json_decode($text, true);
+            $data = json_decode($text, true);
         }
 
-        if (Arr::has($text, 'ok') && $text['ok']) {
-            foreach ($text['result'] as $index => $data) {
-                if (Arr::has($data, 'message')) {
-                    $chat = $data['message']['chat'];
-                    switch ($data['message']['text']) {
-                        case '/start':
-                            $start = app(Start::class, ['data' => $data]);
-                            $start->run();
-                            break;
-                        default:
-                            $lastTelegramEntity = TelegramModel::query()->where('finish', false)
-                                ->where('chat_id', $data['message']['chat']['id'])
-                                ->whereDate('created_at', Carbon::today())
-                                ->latest()
-                                ->first();
+        $data = $text;
+//        if (Arr::has($text, 'ok') && $text['ok']) {
+//            foreach ($text['result'] as $index => $data) {
+        if (Arr::has($data, 'message')) {
+            $chat = $data['message']['chat'];
+            switch ($data['message']['text']) {
+                case '/start':
+                    $start = app(Start::class, ['data' => $data]);
+                    $start->run();
+                    break;
+                default:
+                    $lastTelegramEntity = TelegramModel::query()->where('finish', false)
+                        ->where('chat_id', $data['message']['chat']['id'])
+                        ->whereDate('created_at', Carbon::today())
+                        ->latest()
+                        ->first();
 
-                            $type = 'front';
-                            if ($lastTelegramEntity->reminder_type == 'front') {
-                                $type = 'backend';
-                            } elseif ($lastTelegramEntity->reminder_type == 'backend') {
-                                $type = 'body';
-                            } elseif ($lastTelegramEntity->reminder_type == 'body') {
-                                $type = 'additional_text';
-                            }
-                            return $this->createMessage($data, $type, $lastTelegramEntity);
+                    $type = 'front';
+                    if ($lastTelegramEntity->reminder_type == 'front') {
+                        $type = 'backend';
+                    } elseif ($lastTelegramEntity->reminder_type == 'backend') {
+                        $type = 'body';
+                    } elseif ($lastTelegramEntity->reminder_type == 'body') {
+                        $type = 'additional_text';
                     }
-                } elseif (Arr::has($data, 'callback_query')) {
-                    $data = $data['callback_query'];
-                    if (isset($data['data'])) {
-                        if ($data['data'] === 'create_new_reminder') {
-                            $new = app(Create::class, ['data' => $data, 'type' => 'create_new_reminder']);
-                            $new->run();
-                        }
-                    }
-                } else {
-                    //create front
-                    dd(11);
-
+                    return $this->createMessage($data, $type, $lastTelegramEntity);
+            }
+        } elseif (Arr::has($data, 'callback_query')) {
+            $data = $data['callback_query'];
+            if (isset($data['data'])) {
+                if ($data['data'] === 'create_new_reminder') {
+                    $new = app(Create::class, ['data' => $data, 'type' => 'create_new_reminder']);
+                    $new->run();
                 }
             }
+        } else {
+            //create front
+            dd(11);
+
         }
+//            }
+//        }
     }
 
 
