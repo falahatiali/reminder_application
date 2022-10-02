@@ -15,16 +15,18 @@ class TelegramWebhookController extends Controller
     public function getWebhook(Request $request)
     {
         Log::error(json_encode($request->all()));
-        $text = $request->get('text');
-        $text = '{"ok":true,"result":[{"update_id":460984391,"message":{"message_id":54,"from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663226885,"text":"/start","entities":[{"offset":0,"length":6,"type":"bot_command"}]}}]}';
-        $text = '{"ok":true,"result":[{"update_id":460984392,"callback_query":{"id":"8491552156357483053","from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"message":{"message_id":55,"from":{"id":5451732155,"is_bot":true,"first_name":"Testali","username":"Aliiiiitestttbot"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663226983,"text":"Your welcome Fala!","reply_markup":{"inline_keyboard":[[{"text":"Create a new reminder","callback_data":"create_new_reminder"},{"text":"Get reminders list","callback_data":"get_reminders_list"}]]}},"chat_instance":"1694476004114037214","data":"create_new_reminder"}}]}';
-        $text = '{"ok":true,"result":[{"update_id":460984393,"message":{"message_id":57,"from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663227073,"text":"TheFirstWord"}}]}';
-        $text = '{"ok":true,"result":[{"update_id":460984394,"message":{"message_id":59,"from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663227133,"text":"لغت اول و معنی آن"}}]}';
-        $text ='{"ok":true,"result":[{"update_id":460984395,"message":{"message_id":61,"from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663227210,"text":"This is body for FirstWord"}}]}';
-        $text ='{"ok":true,"result":[{"update_id":460984396,"message":{"message_id":63,"from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663227599,"text":"This is additional text"}}]}';
+        $text = $request->all();
+//        $text = '{"ok":true,"result":[{"update_id":460984391,"message":{"message_id":54,"from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663226885,"text":"/start","entities":[{"offset":0,"length":6,"type":"bot_command"}]}}]}';
+//        $text = '{"ok":true,"result":[{"update_id":460984392,"callback_query":{"id":"8491552156357483053","from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"message":{"message_id":55,"from":{"id":5451732155,"is_bot":true,"first_name":"Testali","username":"Aliiiiitestttbot"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663226983,"text":"Your welcome Fala!","reply_markup":{"inline_keyboard":[[{"text":"Create a new reminder","callback_data":"create_new_reminder"},{"text":"Get reminders list","callback_data":"get_reminders_list"}]]}},"chat_instance":"1694476004114037214","data":"create_new_reminder"}}]}';
+//        $text = '{"ok":true,"result":[{"update_id":460984393,"message":{"message_id":57,"from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663227073,"text":"TheFirstWord"}}]}';
+//        $text = '{"ok":true,"result":[{"update_id":460984394,"message":{"message_id":59,"from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663227133,"text":"لغت اول و معنی آن"}}]}';
+//        $text ='{"ok":true,"result":[{"update_id":460984395,"message":{"message_id":61,"from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663227210,"text":"This is body for FirstWord"}}]}';
+//        $text ='{"ok":true,"result":[{"update_id":460984396,"message":{"message_id":63,"from":{"id":1977093554,"is_bot":false,"first_name":"Fala","username":"alifala99","language_code":"en"},"chat":{"id":1977093554,"first_name":"Fala","username":"alifala99","type":"private"},"date":1663227599,"text":"This is additional text"}}]}';
 
+        if (is_string($text)) {
+            $text = json_decode($text, true);
+        }
 
-        $text = json_decode($text, true);
         if (Arr::has($text, 'ok') && $text['ok']) {
             foreach ($text['result'] as $index => $data) {
                 if (Arr::has($data, 'message')) {
