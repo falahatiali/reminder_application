@@ -20,7 +20,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get("/reminders", Reminder::class);
 });
 
-Route::get('telegram/webhook', [TelegramWebhookController::class, 'getWebhook']);
+Route::post('telegram/webhook', [TelegramWebhookController::class, 'getWebhook']);
 Route::get('telegram/getUpdate', [TelegramWebhookController::class, 'getWebhook']);
 
 Route::get('test', function () {
