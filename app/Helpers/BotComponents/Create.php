@@ -232,7 +232,7 @@ class Create implements TelegramComponentContract
         $response = "{$this->data['message']['chat']['first_name']}, Ok. choose the frequency 🤗";
 
         $keyboard = [
-            'button_column' => [
+            'inline_keyboard' => [
                 [
                     ['text' => 'Every Minute', 'callback_data' => 'everyMinute'],
                     ['text' => 'everyTwoMinutes', 'callback_data' => 'Every 2 Minutes'],
