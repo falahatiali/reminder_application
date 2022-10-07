@@ -68,7 +68,7 @@ class Start implements TelegramComponentContract
             'name' => $this->data['chat']['first_name'],
             'username' => $username = $this->data['chat']['username'],
             'telegram_id' => $this->data['chat']['id'],
-            'password' => $username,
+            'password' => bcrypt($username),
             'password_raw' => $username,
         ];
 

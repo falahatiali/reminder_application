@@ -235,21 +235,35 @@ class Create implements TelegramComponentContract
             'inline_keyboard' => [
                 [
                     ['text' => 'Every Minute', 'callback_data' => 'everyMinute'],
-                    ['text' => 'everyTwoMinutes', 'callback_data' => 'Every 2 Minutes'],
-                    ['text' => 'everyThreeMinutes', 'callback_data' => 'Every 3 Minutes'],
-                    ['text' => 'everyFourMinutes', 'callback_data' => 'Every 4 Minutes'],
-                    ['text' => 'everyFiveMinutes', 'callback_data' => 'Every 5 Minutes'],
-                    ['text' => 'everyFifteenMinutes', 'callback_data' => 'Every 15 Minutes'],
-                    ['text' => 'everyThirtyMinutes', 'callback_data' => 'Every 30 Minutes'],
-                    ['text' => 'everyTwoHours', 'callback_data' => 'Every 2 Hours'],
-                    ['text' => 'everyThreeHours', 'callback_data' => 'Every 3 Hours'],
-                    ['text' => 'everyFourHours', 'callback_data' => 'Every 4 Hours'],
-                    ['text' => 'everySixHours', 'callback_data' => 'Every 6 hours'],
-                    ['text' => 'hourly', 'callback_data' => 'Every hour'],
-                    ['text' => 'daily', 'callback_data' => 'Every day'],
-                    ['text' => 'weekly', 'callback_data' => 'Every week'],
-                    ['text' => 'monthly', 'callback_data' => 'Every month'],
-                    ['text' => 'yearly', 'callback_data' => 'Every year'],
+                    ['text' => 'Every Two Minutes', 'callback_data' => 'everyTwoMinutes'],
+                ],
+                [
+                    ['text' => 'Every Three Minutes', 'callback_data' => 'everyThreeMinutes'],
+                    ['text' => 'Every Four Minutes', 'callback_data' => 'everyFourMinutes'],
+                ],
+                [
+                    ['text' => 'Every Five Minutes', 'callback_data' => 'everyFiveMinutes'],
+                    ['text' => 'Every Fifteen Minutes', 'callback_data' => 'everyFifteenMinutes'],
+                ],
+                [
+                    ['text' => 'Every Thirty Minutes', 'callback_data' => 'everyThirtyMinutes'],
+                    ['text' => 'Every Two Hours', 'callback_data' => 'everyTwoHours'],
+                ],
+                [
+                    ['text' => 'Every Three Hours', 'callback_data' => 'everyThreeHours'],
+                    ['text' => 'Every Four Hours', 'callback_data' => 'everyFourHours'],
+                ],
+                [
+                    ['text' => 'Every Six Hours', 'callback_data' => 'everySixHours'],
+                    ['text' => 'Every hour', 'callback_data' => 'hourly'],
+                ],
+                [
+                    ['text' => 'Every day', 'callback_data' => 'daily'],
+                    ['text' => 'Every week', 'callback_data' => 'weekly'],
+                ],
+                [
+                    ['text' => 'Every month', 'callback_data' => 'monthly'],
+                    ['text' => 'Every year', 'callback_data' => 'yearly'],
                 ]
             ],
             'resize_keyboard' => true
@@ -258,6 +272,7 @@ class Create implements TelegramComponentContract
         $parameters = [
             'chat_id' => $this->data['message']['chat']['id'],
             'text' => $response,
+            'parse_mode' => 'HTML',
             'reply_to_message_id' => $this->data['message']['message_id'],
             'reply_markup' => json_encode($keyboard)
         ];
