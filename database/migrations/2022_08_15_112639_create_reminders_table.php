@@ -20,14 +20,15 @@ return new class extends Migration {
             $table->text('additional_text')->nullable();
             $table->string('reminder_type')->nullable();
             $table->unsignedInteger('category_id')->nullable();
-            $table->string('frequency', 255);
+            $table->string('frequency', 255)->nullable();
             $table->integer('day')->nullable();
             $table->integer('date')->nullable();
             $table->string('time')->nullable();
-            $table->string('expression');
+            $table->string('expression')->nullable();
             $table->boolean('run_once')->default(false);
             $table->boolean('active')->default(true);
             $table->unsignedBigInteger('user_id');
+            $table->boolean('is_complete')->default(false);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
