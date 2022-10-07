@@ -10,7 +10,7 @@ build-job:
   services:
     - docker:19.03.0-dind
   only:
-    - main
+    - develop
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
     TAG_LATEST: $CI_REGISTRY_IMAGE:latest
@@ -33,7 +33,7 @@ unit-test-job:
   image: docker:latest
   stage: test
   only:
-    - main
+    - develop
   script:
     - echo "Running unit tests... This will take about 60 seconds."
     - sleep 1
@@ -42,7 +42,7 @@ unit-test-job:
 lint-test-job: # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   only:
-    - main
+    - develop
   script:
     - echo "Linting code... This will take about 10 seconds."
     - sleep 10
@@ -52,7 +52,7 @@ deploy:
   image: alpine:latest
   stage: deploy
   only:
-    - main
+    - develop
   script:
     - chmod og= $ID_RSA
     - ls
@@ -60,7 +60,7 @@ deploy:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "cd reminders && git pull"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "cp .env reminders/"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "cd reminders && git checkout main && docker-compose -f docker-compose-prod.yml down"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "cd reminders && git checkout develop && docker-compose -f docker-compose-prod.yml down"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "cd reminders && git checkout main && docker-compose -f docker-compose-prod.yml up -d"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker exec -idt backend composer install"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker exec -idt backend php artisan optimize:clear"
