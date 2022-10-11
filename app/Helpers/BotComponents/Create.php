@@ -2,10 +2,12 @@
 
 namespace App\Helpers\BotComponents;
 
+use App\Helpers\Date;
 use App\Helpers\Telegram;
 use App\Models\ReminderModel;
 use App\Models\TelegramModel;
 use App\Models\User;
+use App\Scheduler\MyCronExpression;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -37,6 +39,10 @@ class Create implements TelegramComponentContract
             return $this->createBodyForCard();
         } elseif ($this->type == 'additional_text') {
             return $this->createExtraText();
+        } elseif ($this->type == 'frequency') {
+            return $this->createFrequency();
+        } elseif ($this->type == 'finish') {
+
         }
     }
 
@@ -281,7 +287,7 @@ class Create implements TelegramComponentContract
         try {
 
             $dbTlgParam = [
-                'type' => TelegramModel::TYPE['MESSAGE'],
+                'type' => TelegramModel::TYPE['CALLBACK_QUERY'],
                 'from_id' => $this->data['message']['from']['id'],
                 'message_id' => $this->data['message']['message_id'],
                 'is_bot' => $this->data['message']['from']['is_bot'],
@@ -304,6 +310,67 @@ class Create implements TelegramComponentContract
                 ->where('is_complete', false)
                 ->update([
                     'additional_text' => $dbTlgParam['text']
+                ]);
+
+            DB::commit();
+
+            return $this->telegram->call('sendMessage', $parameters);
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            dd($exception);
+            //todo
+        }
+    }
+
+    private function createFrequency()
+    {
+        $response = "{$this->data['message']['chat']['first_name']}, Almost done 🤗";
+
+        $parameters = [
+            'chat_id' => $this->data['message']['chat']['id'],
+            'text' => $response,
+            'parse_mode' => 'HTML',
+            'reply_to_message_id' => $this->data['message']['message_id'],
+        ];
+
+        DB::beginTransaction();
+        try {
+
+            $dbTlgParam = [
+                'type' => TelegramModel::TYPE['MESSAGE'],
+                'from_id' => $this->data['message']['from']['id'],
+                'message_id' => $this->data['message']['message_id'],
+                'is_bot' => $this->data['message']['from']['is_bot'],
+                'first_name' => $this->data['message']['chat']['first_name'],
+                'username' => $this->data['message']['chat']['username'] ?? '',
+                'language_code' => $this->data['from']['language_code'] ?? '',
+                'chat_id' => $this->data['message']['chat']['id'],
+                'chat_type' => $this->data['message']['chat']['type'],
+                'unix_timestamp' => $this->data['message']['date'],
+                'text' => $this->data['message']['text'],
+                'telegram' => $this->data['message'],
+                'reminder_type' => 'frequency',
+                'finish' => true,
+                'user_id' => $this->telegramModel->user_id
+            ];
+
+            $backend = TelegramModel::query()->create($dbTlgParam);
+
+            $value = Date::allMappings()[$this->data['data']];
+            $expression = new MyCronExpression($value);
+            if (!is_array($expression) && !is_string($expression)) {
+                $expression = $expression->getParts();
+                $expression = implode(' ', $expression);
+            }
+
+            $reminder = ReminderModel::query()
+                ->where('user_id', $dbTlgParam['user_id'])
+                ->where('is_complete', false)
+                ->update([
+                    'expression' => $expression,
+                    'frequency'  => $this->data['data'],
+                    'is_complete' => true
                 ]);
 
             DB::commit();
