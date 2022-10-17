@@ -15,34 +15,6 @@ class Start implements TelegramComponentContract
 
     public function __construct(array $data)
     {
-//        $data = [
-//            "update_id": 460984372,
-//            "message": {
-        //            "message_id": 12,
-        //                "from": {
-        //                    "id": 1977093554,
-        //                            "is_bot": false,
-        //                            "first_name": "Fala",
-        //                            "username": "alifala99",
-        //                            "language_code": "en"
-        //                        },
-        //                "chat": {
-        //                    "id": 1977093554,
-        //                            "first_name": "Fala",
-        //                            "username": "alifala99",
-        //                            "type": "private"
-        //                        },
-        //                "date": 1662976667,
-        //                "text": "/start",
-        //                "entities": [
-        //                    {
-        //                        "offset": 0,
-        //                        "length": 6,
-        //                        "type": "bot_command"
-        //                    }
-        //                ]
-//            }
-//        ]
         $this->data = $data['message'];
     }
 
