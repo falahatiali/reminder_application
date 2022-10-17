@@ -38,6 +38,9 @@ return new class extends Migration {
                 'backend',
                 'body',
                 'additional_text',
+                'frequency',
+                'general',
+                'old'
             ])->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
