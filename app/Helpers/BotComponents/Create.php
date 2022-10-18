@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Scheduler\MyCronExpression;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Create implements TelegramComponentContract
 {
@@ -83,7 +84,7 @@ class Create implements TelegramComponentContract
             return $this->telegram->call('sendMessage', $parameters);
         } catch (Exception $exception) {
             DB::rollBack();
-            dd($exception);
+            Log::error($exception->getMessage());
             // todo - return exception
         }
     }
@@ -128,7 +129,7 @@ class Create implements TelegramComponentContract
             return $this->telegram->call('sendMessage', $parameters);
         } catch (Exception $exception) {
             DB::rollBack();
-            dd($exception);
+            Log::error($exception->getMessage());
             //todo throw exception
         }
     }
@@ -178,7 +179,7 @@ class Create implements TelegramComponentContract
 
         } catch (Exception $exception) {
             DB::rollBack();
-            dd($exception);
+            Log::error($exception->getMessage());
             //todo
         }
     }
@@ -228,7 +229,7 @@ class Create implements TelegramComponentContract
 
         } catch (Exception $exception) {
             DB::rollBack();
-            dd($exception);
+            Log::error($exception->getMessage());
             //todo
         }
     }
@@ -318,7 +319,7 @@ class Create implements TelegramComponentContract
 
         } catch (Exception $exception) {
             DB::rollBack();
-            dd($exception);
+            Log::error($exception->getMessage());
             //todo
         }
     }
@@ -379,7 +380,7 @@ class Create implements TelegramComponentContract
 
         } catch (Exception $exception) {
             DB::rollBack();
-            dd($exception);
+            Log::error($exception->getMessage());
             //todo
         }
     }

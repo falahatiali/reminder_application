@@ -7,6 +7,7 @@ use App\Models\TelegramModel;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Start implements TelegramComponentContract
 {
@@ -81,6 +82,7 @@ class Start implements TelegramComponentContract
 
             return $result->reason();
         } catch (Exception $exception) {
+            Log::error($exception->getMessage());
             DB::rollBack();
             //todo - throw exception
             //throw exception
