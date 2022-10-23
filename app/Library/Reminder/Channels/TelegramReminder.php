@@ -51,8 +51,6 @@ class TelegramReminder implements SendMessageContract
 
     private function getTelegramChatId(ReminderModel $reminder)
     {
-        $user = $reminder->user();
-
-        return $user->telegram_id;
+        return $reminder->user->telegram_id;
     }
 }
