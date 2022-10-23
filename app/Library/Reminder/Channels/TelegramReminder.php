@@ -46,7 +46,7 @@ class TelegramReminder implements SendMessageContract
 
     private function getTelegramToken()
     {
-        return config('services.telegram-bot-api.token');
+        return config('services.telegram.token');
     }
 
     private function getTelegramChatId(ReminderModel $reminder)
