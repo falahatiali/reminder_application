@@ -19,7 +19,7 @@ class TelegramReminder implements SendMessageContract
     private function buildRequestUrl(ReminderModel $reminderModel): string
     {
         $url = "https://api.telegram.org/bot{$this->getTelegramToken()}/sendMessage?";
-        $url .= "chat_id={$this->getTelegramChatId()}";
+        $url .= "chat_id={$this->getTelegramChatId($reminderModel)}";
         $url .= "&parse_mode=HTML";
         $url .= "&text={$this->buildFormattedText($reminderModel)}";
 
@@ -49,8 +49,10 @@ class TelegramReminder implements SendMessageContract
         return config('services.telegram-bot-api.token');
     }
 
-    private function getTelegramChatId()
+    private function getTelegramChatId(ReminderModel $reminder)
     {
-        return config('services.telegram-bot-api.chatId');
+        $user = $reminder->user();
+
+        return $user->telegram_id;
     }
 }
