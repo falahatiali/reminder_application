@@ -23,11 +23,11 @@ class Login extends Component
     public function submit()
     {
         $this->validate([
-            'form.email' => 'required|email',
+            'form.email' => 'required',
             'form.password' => 'required',
         ], [
-            'form.email.required' => 'ایمیل ضروری است',
-            'form.email.email' => 'فرمت ایمیل اشتباه است',
+            'form.email.required' => 'نام کاربری یا ایمیل ضروری است',
+//            'form.email.email' => 'فرمت ایمیل اشتباه است',
             'form.password.required' => 'رمز ورود ضروری است',
         ]);
 

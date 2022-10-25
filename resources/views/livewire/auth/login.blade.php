@@ -42,7 +42,7 @@
         <form wire:submit.prevent="submit" class="d-flex flex-column justify-content-between">
             <h1 class="h5 mb-3 fw-normal text-center">Sign In</h1>
             <div class="form-floating">
-                <input type="email" wire:model="form.email" class="form-control text-center {{ $errors->has('form.email')?'is-invalid':'' }}" id="floatingEmail" placeholder="name@example.com">
+                <input type="text" wire:model="form.email" class="form-control text-center {{ $errors->has('form.email')?'is-invalid':'' }}" id="floatingEmail" placeholder="name@example.com">
                 <label for="floatingEmail" class="text-center">Email</label>
                 @error('form.email') <span class="text-danger text-center" style="direction: rtl;float: right">{{ $message }}</span> @enderror
             </div>
