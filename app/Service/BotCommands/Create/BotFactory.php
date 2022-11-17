@@ -17,10 +17,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
-abstract class BotFactory
+class BotFactory
 {
-    public abstract function create();
-
     public function __construct(private Request $request)
     {
     }
