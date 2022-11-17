@@ -16,7 +16,7 @@ class MessageDVO implements MessageInterface
                                 ChatDVO $chat,
                                 string  $date,
                                 string  $text,
-                                int     $userId = null)
+                                int     $userId = 0)
     {
         $this->messageId = $messageId;
         $this->from = $from;

@@ -7,11 +7,13 @@ use App\DVO\Message\FromDVO;
 use App\DVO\Message\MessageDVO;
 use App\Models\TelegramModel;
 use App\Service\BotCommands\Start;
+use App\Service\Contracts\CreateBotCommandsContract;
 use App\Service\DVO\CallbackQueryDVOService;
 use App\Service\DVO\ChatDVOService;
 use App\Service\DVO\FromDVOService;
 use App\Service\DVO\MessageDVOService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -23,7 +25,10 @@ class BotFactory
     {
     }
 
-    public function makeObject()
+    /**
+     * @throws Exception
+     */
+    public function makeObject(): CreateBotCommandsContract
     {
         $text = $this->request->all();
         // For Log input data
@@ -78,7 +83,7 @@ class BotFactory
             }
         }
 
-        return '';
+        throw new Exception('exception in making object');
     }
 
     /**
