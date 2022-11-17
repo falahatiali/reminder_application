@@ -6,11 +6,12 @@ use App\DVO\Message\MessageDVO;
 use App\Helpers\SocialChannelContract;
 use App\Models\TelegramModel;
 use App\Models\User;
+use App\Service\Contracts\CreateBotCommandsContract;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class Start
+class Start implements CreateBotCommandsContract
 {
     public function __construct(private MessageDVO $message, private SocialChannelContract $channel)
     {
