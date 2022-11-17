@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Service\BotCommands\Create\BotFactory;
+use Illuminate\Http\Request;
 
 class TelegramWebhookController extends Controller
 {
-    public function getWebhook()
+    public function getWebhook(Request $request)
     {
-        /** @var BotFactory $botCommandFactory */
-        $botCommandFactory = app(BotFactory::class);
+        $botCommandFactory = new BotFactory($request);
 
         $object = $botCommandFactory->makeObject();
         return $object->create();

@@ -53,6 +53,7 @@ deploy:
   stage: deploy
   only:
     - develop
+    - main
   script:
     - chmod og= $ID_RSA
     - ls
