@@ -6,8 +6,8 @@ use App\Helpers\Date;
 use App\Helpers\Telegram;
 use App\Models\ReminderModel;
 use App\Models\TelegramModel;
-use App\Models\User;
 use App\Scheduler\MyCronExpression;
+use App\Service\BotCommands\Create\CreateFront;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -31,7 +31,12 @@ class Create implements TelegramComponentContract
     public function run()
     {
         if ($this->type == 'create_new_reminder') {
-            return $this->sendFirstTextFrontData();
+            $createNew = app(CreateFront::class , [
+                'data' => $this->data,
+                'type' => $this->type,
+                'telegramModel' => $this->telegramModel
+            ]);
+            $createNew->create();
         } elseif ($this->type == 'front') {
             return $this->createFrontOfTheLeitner();
         } elseif ($this->type == 'backend') {
@@ -42,50 +47,6 @@ class Create implements TelegramComponentContract
             return $this->createExtraText();
         } elseif ($this->type == 'frequency') {
             return $this->createFrequency();
-        } elseif ($this->type == 'finish') {
-
-        }
-    }
-
-    private function sendFirstTextFrontData()
-    {
-        $response = "{$this->data['message']['chat']['first_name']}, Please send your word!";
-
-        $parameters = [
-            'text' => $response,
-            'chat_id' => $this->data['message']['chat']['id'],
-            'reply_to_message_id' => $this->data['message']['message_id'],
-        ];
-
-        DB::beginTransaction();
-        try {
-            $user = User::query()->where('telegram_id', $this->data['message']['chat']['id'])->first();
-
-            $dbTlgParam = [
-                'type' => TelegramModel::TYPE['CALLBACK_QUERY'],
-                'from_id' => $this->data['message']['from']['id'],
-                'message_id' => $this->data['message']['message_id'],
-                'is_bot' => $this->data['message']['from']['is_bot'],
-                'first_name' => $this->data['message']['chat']['first_name'],
-                'username' => $this->data['message']['chat']['username'] ?? '',
-                'language_code' => $this->data['from']['language_code'] ?? '',
-                'chat_id' => $this->data['message']['chat']['id'],
-                'chat_type' => $this->data['message']['chat']['type'],
-                'unix_timestamp' => $this->data['message']['date'],
-                'chat_instance' => $this->data['chat_instance'],
-                'data' => $this->data['data'],
-                'text' => $this->data['message']['text'],
-                'telegram' => $this->data['message'],
-            ];
-
-            $user->telegramEntity()->create($dbTlgParam);
-
-            DB::commit();
-            return $this->telegram->call('sendMessage', $parameters);
-        } catch (Exception $exception) {
-            DB::rollBack();
-            Log::error($exception->getMessage());
-            // todo - return exception
         }
     }
 

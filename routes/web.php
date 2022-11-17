@@ -23,6 +23,4 @@ Route::group(['middleware' => 'auth'], function () {
 Route::post('telegram/webhook', [TelegramWebhookController::class, 'getWebhook']);
 Route::get('telegram/getUpdate', [TelegramWebhookController::class, 'getWebhook']);
 
-Route::get('test', function () {
-    dd(new \App\Scheduler\MyCronExpression('@everyTwoMinutes'));
-});
+Route::get('test', function () {});

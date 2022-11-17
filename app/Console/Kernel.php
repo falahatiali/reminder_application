@@ -19,8 +19,6 @@ class Kernel extends ConsoleKernel
                 return $schedule->call(function () use ($reminder) {
                     $sendReminder = app(SendReminder::class , ['reminder' => $reminder]);
                     $sendReminder->sendReminder();
-//                    $reminderAgent = app(TelegramReminder::class, ['reminder' => $reminder]);
-//                    $reminderAgent->SendReminder();
                 })->cron($reminder->expression);
             });
         });

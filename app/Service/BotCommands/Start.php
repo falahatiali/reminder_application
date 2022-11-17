@@ -1,27 +1,25 @@
 <?php
 
-namespace App\Helpers\BotComponents;
+namespace App\Service\BotCommands;
 
-use App\Helpers\Telegram;
+use App\DVO\Message\MessageDVO;
+use App\Helpers\SocialChannelContract;
 use App\Models\TelegramModel;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class Start implements TelegramComponentContract
+class Start
 {
-    private array $data;
-
-
-    public function __construct(array $data)
+    public function __construct(private MessageDVO $message, private SocialChannelContract $channel)
     {
-        $this->data = $data['message'];
     }
 
-    public function run()
+    public function create()
     {
-        $response = "Your welcome {$this->data['chat']['first_name']}!";
+        $response = "Your welcome {$this->message->getChat()->getFirstName()}!";
+
         $keyboard = [
             'inline_keyboard' => [
                 [
@@ -31,33 +29,35 @@ class Start implements TelegramComponentContract
             ]
         ];
 
+        $chat = $this->message->getChat();
+
         $parameters = [
-            'chat_id' => $this->data['chat']['id'],
+            'chat_id' => $chat->getId(),
             'text' => $response,
             'reply_markup' => json_encode($keyboard)
         ];
 
         $userParams = [
-            'name' => $this->data['chat']['first_name'],
-            'username' => $username = $this->data['chat']['username'],
-            'telegram_id' => $this->data['chat']['id'],
+            'name' => $chat->getFirstName(),
+            'username' => $username = $chat->getUsername(),
+            'telegram_id' => $chat->getId(),
             'password' => bcrypt($username),
             'password_raw' => $username,
         ];
 
         $dbTlgParam = [
             'type' => TelegramModel::TYPE['MESSAGE'],
-            'from_id' => $this->data['from']['id'],
-            'message_id' => $this->data['message_id'],
-            'is_bot' => $this->data['from']['is_bot'],
-            'first_name' => $this->data['chat']['first_name'],
-            'username' => $this->data['chat']['username'] ?? '',
-            'language_code' => $this->data['from']['language_code'],
-            'chat_id' => $this->data['chat']['id'],
-            'chat_type' => $this->data['chat']['type'],
-            'unix_timestamp' => $this->data['date'],
-            'text' => $this->data['text'],
-            'telegram' => $this->data,
+            'from_id' => $this->message->getFrom()->getId(),
+            'message_id' => $this->message->getMessageId(),
+            'is_bot' => $this->message->getFrom()->isBot(),
+            'first_name' => $chat->getFirstName(),
+            'username' => $chat->getUsername(),
+            'language_code' => $this->message->getFrom()->getLanguageCode(),
+            'chat_id' => $chat->getId(),
+            'chat_type' => $chat->getType(),
+            'unix_timestamp' => $this->message->getDate(),
+            'text' => $this->message->getText(),
+            'telegram' => 1,
         ];
 
         DB::beginTransaction();
@@ -72,8 +72,7 @@ class Start implements TelegramComponentContract
                 'user_id' => $user->id
             ]));
 
-            $telegram = app(Telegram::class);
-            $result = $telegram->call('sendMessage', $parameters);
+            $result = $this->channel->call('sendMessage', $parameters);
 
             DB::commit();
             if ($result->status() == 200) {
@@ -81,6 +80,7 @@ class Start implements TelegramComponentContract
             }
 
             return $result->reason();
+
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
