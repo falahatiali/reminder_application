@@ -19,7 +19,7 @@ class TelegramReminder implements SendMessageContract
     private function buildRequestUrl(ReminderModel $reminderModel): string
     {
         $url = "https://api.telegram.org/bot{$this->getTelegramToken()}/sendMessage?";
-        $url .= "chat_id={$this->getTelegramChatId()}";
+        $url .= "chat_id={$this->getTelegramChatId($reminderModel)}";
         $url .= "&parse_mode=HTML";
         $url .= "&text={$this->buildFormattedText($reminderModel)}";
 
@@ -29,7 +29,7 @@ class TelegramReminder implements SendMessageContract
     private function buildFormattedText(ReminderModel $reminder)
     {
         $text = "<b>{$reminder->frontend}</b>, <strong>{$reminder->frontend}</strong>\n\n\n";
-        $text .= "<b><span class=\"tg-spoiler\">{$reminder->backend}</span></b>\n\n\n";
+        $text .= "<b class='tg-spoiler'><span class='tg-spoiler'>{$reminder->backend}</span></b>\n\n\n";
 
         if (Str::length($reminder->body) > 0) {
             $text .= "<b><i>*******Text Body *******</i></b>\n";
@@ -46,11 +46,11 @@ class TelegramReminder implements SendMessageContract
 
     private function getTelegramToken()
     {
-        return config('services.telegram-bot-api.token');
+        return config('services.telegram.token');
     }
 
-    private function getTelegramChatId()
+    private function getTelegramChatId(ReminderModel $reminder)
     {
-        return config('services.telegram-bot-api.chatId');
+        return $reminder->user->telegram_id;
     }
 }

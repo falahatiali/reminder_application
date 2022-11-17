@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\Http;
 
-class Telegram
+class Telegram implements SocialChannelContract
 {
     private string $baseUrl = 'https://api.telegram.org/bot';
 
@@ -13,7 +13,7 @@ class Telegram
         $this->baseUrl .= config('services.telegram.token');
     }
 
-    public function call($function, $parameters)
+    public function call($function, $parameters): object
     {
         $url = $this->baseUrl . '/' . $function;
         return Http::post($url, $parameters);
