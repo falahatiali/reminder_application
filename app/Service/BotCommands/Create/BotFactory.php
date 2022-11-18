@@ -94,9 +94,9 @@ class BotFactory
 
     /**
      * @param $data
-     * @return Collection
+     * @return TelegramModel
      */
-    private function getLastTelegramObject($data): Collection
+    private function getLastTelegramObject($data): TelegramModel
     {
         return TelegramModel::where('finish', false)
             ->where('chat_id', $data['message']['chat']['id'])
