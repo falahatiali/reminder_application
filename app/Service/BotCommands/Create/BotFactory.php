@@ -30,57 +30,63 @@ class BotFactory
      */
     public function makeObject(): CreateBotCommandsContract
     {
-        $text = $this->request->all();
-        // For Log input data
-        Log::error(is_string($text) ? $text : json_encode($text));
+        try {
+            $text = $this->request->all();
+            // For Log input data
+            Log::error(is_string($text) ? $text : json_encode($text));
 
-        $data = is_string($text) ? json_decode($text, true) : $text;
+            $data = is_string($text) ? json_decode($text, true) : $text;
 
-        if (Arr::has($data, 'message')) {
-            $chat = $data['message']['chat'];
-            $from = $data['message']['from'];
+            if (Arr::has($data, 'message')) {
+                $chat = $data['message']['chat'];
+                $from = $data['message']['from'];
 
-            /** @var ChatDVO $chatDvo */
-            $chatDvo = app(ChatDVOService::class)->create($chat);
-            /** @var FromDVO $fromDvo */
-            $fromDvo = app(FromDVOService::class)->create($from);
-            /** @var MessageDVO $messageDvo */
-            $messageDvo = app(MessageDVOService::class)->create($fromDvo, $chatDvo, $data['message']);
+                /** @var ChatDVO $chatDvo */
+                $chatDvo = app(ChatDVOService::class)->create($chat);
+                /** @var FromDVO $fromDvo */
+                $fromDvo = app(FromDVOService::class)->create($from);
+                /** @var MessageDVO $messageDvo */
+                $messageDvo = app(MessageDVOService::class)->create($fromDvo, $chatDvo, $data['message']);
 
-            if ($data['message']['text'] == '/start') {
-                return app(Start::class, ['message' => $messageDvo]);
-            } else {
-                $last = $this->getLastTelegramObject($data);
-                $type = $this->getType($last);
-                $messageDvo->setUserId($last->user_id);
+                if ($data['message']['text'] == '/start') {
+                    return app(Start::class, ['message' => $messageDvo]);
+                } else {
+                    $last = $this->getLastTelegramObject($data);
+                    $type = $this->getType($last);
+                    $messageDvo->setUserId($last->user_id);
 
-                if ($type == 'backend') {
-                    return app(CreateBackend::class, ['message' => $messageDvo]);
-                } elseif ($type == 'body') {
-                    return app(CreateBody::class, ['message' => $messageDvo]);
-                } elseif ($type == 'additional_text') {
-                    return app(CreateAdditionalText::class, ['message' => $messageDvo]);
-                } elseif ($type == 'frequency') {
-                    return app(CreateFrequency::class, ['data' => $messageDvo]);
+                    if ($type == 'backend') {
+                        return app(CreateBackend::class, ['message' => $messageDvo]);
+                    } elseif ($type == 'body') {
+                        return app(CreateBody::class, ['message' => $messageDvo]);
+                    } elseif ($type == 'additional_text') {
+                        return app(CreateAdditionalText::class, ['message' => $messageDvo]);
+                    } elseif ($type == 'frequency') {
+                        return app(CreateFrequency::class, ['data' => $messageDvo]);
+                    }
+                }
+            } elseif (Arr::has($data, 'callback_query')) {
+                $data = $data['callback_query'];
+                /** @var ChatDVO $chatDvo */
+                $chatDvo = app(ChatDVOService::class)->create($data['message']['chat']);
+                $fromDvo = app(FromDVOService::class)->create($data['message']['from']);
+                /** @var MessageDVO $messageDvo */
+                $messageDvo = app(MessageDVOService::class)->create($fromDvo, $chatDvo, $data['message']);
+
+                $callBackQueryDVO = app(CallbackQueryDVOService::class)->create(
+                    $data['id'], $fromDvo, $messageDvo, $data['message']['text'],
+                    $data['chat_instance'], $data['data'],
+                    $data['message']['reply_markup']);
+
+                if (isset($data['data'])) {
+                    if ($data['data'] === 'create_new_reminder') {
+                        return app(CreateFront::class, ['message' => $callBackQueryDVO]);
+                    }
                 }
             }
-        } elseif (Arr::has($data, 'callback_query')) {
-            /** @var ChatDVO $chatDvo */
-            $chatDvo = app(ChatDVOService::class)->create($data['callback_query']['message']['chat']);
-            $fromDvo = app(FromDVOService::class)->create($data['callback_query']['message']['from']);
-            /** @var MessageDVO $messageDvo */
-            $messageDvo = app(MessageDVOService::class)->create($fromDvo, $chatDvo, $data['callback_query']['message']);
 
-            $callBackQueryDVO = app(CallbackQueryDVOService::class)->create(
-                $data['callback_query']['id'], $fromDvo, $messageDvo, $data['callback_query']['message']['text'],
-                $data['callback_query']['chat_instance'], $data['callback_query']['data'],
-                $data['callback_query']['message']['reply_markup']);
-
-            if (isset($data['data'])) {
-                if ($data['data'] === 'create_new_reminder') {
-                    return app(CreateFront::class, ['message' => $callBackQueryDVO]);
-                }
-            }
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
         }
 
         throw new Exception('exception in making object');
