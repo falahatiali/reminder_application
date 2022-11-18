@@ -50,7 +50,9 @@ class BotFactory
                     $type = $this->getType($last);
                     $messageDvo->setUserId($last->user_id);
 
-                    if ($type == 'backend') {
+                    if ($type == 'front') {
+                        return app(CreateFront::class, ['message' => $messageDvo]);
+                    } elseif ($type == 'backend') {
                         return app(CreateBackend::class, ['message' => $messageDvo]);
                     } elseif ($type == 'body') {
                         return app(CreateBody::class, ['message' => $messageDvo]);
@@ -75,7 +77,7 @@ class BotFactory
 
                 if (isset($data['data'])) {
                     if ($data['data'] === 'create_new_reminder') {
-                        return app(CreateFront::class, ['message' => $callBackQueryDVO]);
+                        return app(CreateNewReminder::class, ['message' => $callBackQueryDVO]);
                     }
                 }
             }
