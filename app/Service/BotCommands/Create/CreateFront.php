@@ -48,6 +48,7 @@ class CreateFront implements CreateBotCommandsContract
                 'chat_instance' => $this->message->getChatInstance(),
                 'data' => $this->message->getData(),
                 'telegram' => json_encode($this->message->toArray()),
+                'reminder_type' => 'front',
                 'user_id' => $user->id
             ];
 
