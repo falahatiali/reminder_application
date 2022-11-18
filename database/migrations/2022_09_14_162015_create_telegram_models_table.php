@@ -34,6 +34,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id')->nullable();
             $table->boolean('finish')->default(false);
             $table->enum('reminder_type', [
+                'create_new',
                 'front',
                 'backend',
                 'body',

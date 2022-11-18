@@ -3,7 +3,9 @@
 namespace App\Service\BotCommands\Create;
 
 use App\DVO\Message\CallBackQueryDVO;
+use App\DVO\Message\MessageDVO;
 use App\Helpers\SocialChannelContract;
+use App\Models\ReminderModel;
 use App\Models\TelegramModel;
 use App\Models\User;
 use App\Service\Contracts\CreateBotCommandsContract;
@@ -13,52 +15,52 @@ use Illuminate\Support\Facades\Log;
 
 class CreateFront implements CreateBotCommandsContract
 {
-    public function __construct(private SocialChannelContract $channel, private CallBackQueryDVO $message)
+    public function __construct(private SocialChannelContract $channel, private MessageDVO $message)
     {
     }
 
     public function create()
     {
-        $response = "{$this->message->getMessage()->getChat()->getFirstName()}, Please send your word!";
+        $response = "{$this->message->getChat()->getFirstName()}, You successfully set the word.🥰 Now create the back of the card. (meaning or description) 🤗";
 
         $parameters = [
             'text' => $response,
-            'chat_id' => $this->message->getMessage()->getChat()->getId(),
-            'reply_to_message_id' => $this->message->getMessage()->getMessageId(),
+            'chat_id' => $this->message->getChat()->getId(),
+            'reply_to_message_id' => $this->message->getMessageId(),
+        ];
+        $dbTlgParam = [
+            'type' => TelegramModel::TYPE['CALLBACK_QUERY'],
+            'from_id' => $this->message->getFrom()->getId(),
+            'message_id' => $this->message->getMessageId(),
+            'is_bot' => $this->message->getFrom()->isBot(),
+            'first_name' => $this->message->getChat()->getFirstName(),
+            'username' => $this->message->getChat()->getUsername() ?? '',
+            'language_code' => $this->message->getFrom()->getLanguageCode() ?? '',
+            'chat_id' => $this->message->getChat()->getId(),
+            'chat_type' => $this->message->getChat()->getType(),
+            'unix_timestamp' => $this->message->getDate(),
+            'text' => $this->message->getText(),
+            'data' => $this->message->toArray(),
+            'telegram' => json_encode($this->message->toArray()),
+            'reminder_type' => 'front',
+            'user_id' => $this->message->getUserId()
+        ];
+
+        $reminderFrontParam = [
+            'user_id' => $dbTlgParam['user_id'],
+            'frontend' => $dbTlgParam['text'],
         ];
 
         DB::beginTransaction();
         try {
-            $user = User::query()
-                ->where('telegram_id', $this->message->getMessage()->getChat()->getId())
-                ->first();
-
-            $dbTlgParam = [
-                'type' => TelegramModel::TYPE['CALLBACK_QUERY'],
-                'from_id' => $this->message->getFrom()->getId(),
-                'message_id' => $this->message->getMessage()->getMessageId(),
-                'is_bot' => $this->message->getFrom()->isBot(),
-                'first_name' => $this->message->getMessage()->getChat()->getFirstName(),
-                'username' => $this->message->getMessage()->getChat()->getUsername() ?? '',
-                'language_code' => $this->message->getFrom()->getLanguageCode() ?? '',
-                'chat_id' => $this->message->getMessage()->getChat()->getId(),
-                'chat_type' => $this->message->getMessage()->getChat()->getType(),
-                'unix_timestamp' => $this->message->getMessage()->getDate(),
-                'text' => $this->message->getText(),
-                'chat_instance' => $this->message->getChatInstance(),
-                'data' => $this->message->getData(),
-                'telegram' => json_encode($this->message->toArray()),
-                'user_id' => $user->id
-            ];
-
-            $user->telegramEntity()->create($dbTlgParam);
-
+            $front = TelegramModel::query()->create($dbTlgParam);
+            $reminder = ReminderModel::query()->create($reminderFrontParam);
             DB::commit();
             return $this->channel->call('sendMessage', $parameters);
         } catch (Exception $exception) {
             DB::rollBack();
             Log::error($exception->getMessage());
-            // todo - return exception
+            //todo throw exception
         }
     }
 }
