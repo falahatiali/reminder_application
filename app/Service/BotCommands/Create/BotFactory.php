@@ -5,6 +5,7 @@ namespace App\Service\BotCommands\Create;
 use App\DVO\Message\ChatDVO;
 use App\DVO\Message\FromDVO;
 use App\DVO\Message\MessageDVO;
+use App\Helpers\Date;
 use App\Models\TelegramModel;
 use App\Service\BotCommands\Start;
 use App\Service\Contracts\CreateBotCommandsContract;
@@ -63,8 +64,6 @@ class BotFactory
                         return app(CreateBody::class, ['message' => $messageDvo]);
                     } elseif ($type == 'additional_text') {
                         return app(CreateAdditionalText::class, ['message' => $messageDvo]);
-                    } elseif ($type == 'frequency') {
-                        return app(CreateFrequency::class, ['data' => $messageDvo]);
                     }
                 }
             } elseif (Arr::has($data, 'callback_query')) {
@@ -83,6 +82,13 @@ class BotFactory
                 if (isset($data['data'])) {
                     if ($data['data'] === 'create_new_reminder') {
                         return app(CreateNewReminder::class, ['message' => $callBackQueryDVO]);
+                    } elseif (Arr::exists(Date::frequencies(), $data['data'])) {
+                        if (1 == 2) {
+                            dd(1);
+                        } else {
+                            return app(CreateFrequency::class, ['data' => $callBackQueryDVO]);
+                        }
+
                     }
                 }
             }

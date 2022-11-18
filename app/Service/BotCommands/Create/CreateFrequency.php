@@ -45,7 +45,7 @@ class CreateFrequency implements CreateBotCommandsContract
                 'chat_type' => $this->data->getMessage()->getChat()->getType(),
                 'unix_timestamp' => $this->data->getMessage()->getDate(),
                 'text' => $this->data->getMessage()->getText(),
-                'telegram' => $this->data->getMessage()->toArray(),
+                'telegram' => $this->data->toArray(),
                 'reminder_type' => 'frequency',
                 'finish' => true,
                 'user_id' => $this->data->getMessage()->getUserId()
@@ -65,7 +65,7 @@ class CreateFrequency implements CreateBotCommandsContract
                 ->where('is_complete', false)
                 ->update([
                     'expression' => $expression,
-                    'frequency'  => $this->data->getData(),
+                    'frequency' => $this->data->getData(),
                     'is_complete' => true
                 ]);
 
