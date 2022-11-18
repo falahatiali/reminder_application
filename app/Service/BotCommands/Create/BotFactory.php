@@ -7,6 +7,7 @@ use App\DVO\Message\FromDVO;
 use App\DVO\Message\MessageDVO;
 use App\Helpers\Date;
 use App\Models\TelegramModel;
+use App\Models\User;
 use App\Service\BotCommands\Start;
 use App\Service\Contracts\CreateBotCommandsContract;
 use App\Service\DVO\CallbackQueryDVOService;
@@ -73,6 +74,7 @@ class BotFactory
                 $fromDvo = app(FromDVOService::class)->create($data['message']['from']);
                 /** @var MessageDVO $messageDvo */
                 $messageDvo = app(MessageDVOService::class)->create($fromDvo, $chatDvo, $data['message']);
+                $messageDvo->setUserId($this->getUserDataId($chatDvo->getId()));
 
                 $callBackQueryDVO = app(CallbackQueryDVOService::class)->create(
                     $data['id'], $fromDvo, $messageDvo, $data['message']['text'],
@@ -126,5 +128,13 @@ class BotFactory
             $type = 'frequency';
         }
         return $type;
+    }
+
+    public function getUserDataId(int $chatId)
+    {
+        return User::query()
+            ->where('telegram_id', $chatId)
+            ->first()
+            ->id;
     }
 }
