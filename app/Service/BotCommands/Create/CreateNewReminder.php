@@ -5,7 +5,7 @@ namespace App\Service\BotCommands\Create;
 use App\DVO\Message\CallBackQueryDVO;
 use App\Helpers\SocialChannelContract;
 use App\Models\TelegramModel;
-use App\Models\User;
+use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Service\Contracts\CreateBotCommandsContract;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Log;
 
 class CreateNewReminder implements CreateBotCommandsContract
 {
-    public function __construct(private SocialChannelContract $channel, private CallBackQueryDVO $message)
+    public function __construct(
+        private SocialChannelContract   $channel,
+        private CallBackQueryDVO        $message,
+        private UserRepositoryInterface $userRepository)
     {
     }
 
@@ -29,8 +32,8 @@ class CreateNewReminder implements CreateBotCommandsContract
 
         DB::beginTransaction();
         try {
-            $user = User::query()
-                ->where('telegram_id', $this->message->getMessage()->getChat()->getId())
+            $user = $this->userRepository
+                ->findWhere('telegram_id', $this->message->getMessage()->getChat()->getId())
                 ->first();
 
             $dbTlgParam = [
@@ -52,7 +55,7 @@ class CreateNewReminder implements CreateBotCommandsContract
                 'user_id' => $user->id
             ];
 
-            $user->telegramEntity()->create($dbTlgParam);
+            $this->userRepository->createTelegramEntity($user->id, $dbTlgParam);
 
             DB::commit();
             return $this->channel->call('sendMessage', $parameters);

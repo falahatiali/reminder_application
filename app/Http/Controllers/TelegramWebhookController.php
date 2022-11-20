@@ -14,7 +14,7 @@ class TelegramWebhookController extends Controller
      */
     public function getWebhook(Request $request)
     {
-        $botCommandFactory = new BotFactory($request);
+        $botCommandFactory = app(BotFactory::class, ['request' => $request]);
 
         try {
             $object = $botCommandFactory->makeObject();

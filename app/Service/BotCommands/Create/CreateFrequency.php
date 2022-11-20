@@ -5,8 +5,11 @@ namespace App\Service\BotCommands\Create;
 use App\DVO\Message\CallBackQueryDVO;
 use App\Helpers\Date;
 use App\Helpers\SocialChannelContract;
-use App\Models\ReminderModel;
 use App\Models\TelegramModel;
+use App\Repositories\Contracts\ReminderRepositoryInterface;
+use App\Repositories\Contracts\TelegramRepositoryInterface;
+use App\Repositories\Eloquent\Criteria\IsNotComplete;
+use App\Repositories\Eloquent\Criteria\LatestFirst;
 use App\Scheduler\MyCronExpression;
 use App\Service\Contracts\CreateBotCommandsContract;
 use Exception;
@@ -15,7 +18,11 @@ use Illuminate\Support\Facades\Log;
 
 class CreateFrequency implements CreateBotCommandsContract
 {
-    public function __construct(private CallBackQueryDVO $data, private SocialChannelContract $channel)
+    public function __construct(
+        private CallBackQueryDVO            $data,
+        private SocialChannelContract       $channel,
+        private TelegramRepositoryInterface $telegramRepository,
+        private ReminderRepositoryInterface $reminderRepository)
     {
     }
 
@@ -45,13 +52,13 @@ class CreateFrequency implements CreateBotCommandsContract
                 'chat_type' => $this->data->getMessage()->getChat()->getType(),
                 'unix_timestamp' => $this->data->getMessage()->getDate(),
                 'text' => $this->data->getMessage()->getText(),
-                'telegram' => $this->data->getMessage()->toArray(),
+                'telegram' => $this->data->toArray(),
                 'reminder_type' => 'frequency',
                 'finish' => true,
                 'user_id' => $this->data->getMessage()->getUserId()
             ];
 
-            $backend = TelegramModel::query()->create($dbTlgParam);
+            $this->telegramRepository->create($dbTlgParam);
 
             $value = Date::allMappings()[$this->data->getData()];
             $expression = new MyCronExpression($value);
@@ -60,12 +67,10 @@ class CreateFrequency implements CreateBotCommandsContract
                 $expression = implode(' ', $expression);
             }
 
-            $reminder = ReminderModel::query()
-                ->where('user_id', $dbTlgParam['user_id'])
-                ->where('is_complete', false)
-                ->update([
+            $this->reminderRepository->withCriteria(new IsNotComplete(), new LatestFirst())
+                ->updateWhere('user_id', '=', $dbTlgParam['user_id'], [
                     'expression' => $expression,
-                    'frequency'  => $this->data->getData(),
+                    'frequency' => $this->data->getData(),
                     'is_complete' => true
                 ]);
 
