@@ -19,9 +19,9 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(UserRepositoryInterface::class , EloquentUserRepository::class);
-        $this->app->singleton(ReminderRepositoryInterface::class , EloquentReminderRepository::class);
-        $this->app->singleton(TelegramRepositoryInterface::class , EloquentTelegramModelRepository::class);
+        $this->app->singleton(UserRepositoryInterface::class, EloquentUserRepository::class);
+        $this->app->singleton(ReminderRepositoryInterface::class, EloquentReminderRepository::class);
+        $this->app->singleton(TelegramRepositoryInterface::class, EloquentTelegramModelRepository::class);
     }
 
     /**
