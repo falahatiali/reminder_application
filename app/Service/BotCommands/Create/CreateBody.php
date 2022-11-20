@@ -4,8 +4,11 @@ namespace App\Service\BotCommands\Create;
 
 use App\DVO\Message\MessageDVO;
 use App\Helpers\SocialChannelContract;
-use App\Models\ReminderModel;
 use App\Models\TelegramModel;
+use App\Repositories\Contracts\ReminderRepositoryInterface;
+use App\Repositories\Contracts\TelegramRepositoryInterface;
+use App\Repositories\Eloquent\Criteria\IsNotComplete;
+use App\Repositories\Eloquent\Criteria\LatestFirst;
 use App\Service\Contracts\CreateBotCommandsContract;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +16,11 @@ use Illuminate\Support\Facades\Log;
 
 class CreateBody implements CreateBotCommandsContract
 {
-    public function __construct(private MessageDVO $message, private SocialChannelContract $channel)
+    public function __construct(
+        private MessageDVO                  $message,
+        private SocialChannelContract       $channel,
+        private TelegramRepositoryInterface $telegramRepository,
+        private ReminderRepositoryInterface $reminderRepository)
     {
     }
 
@@ -47,12 +54,10 @@ class CreateBody implements CreateBotCommandsContract
                 'user_id' => $this->message->getUserId()
             ];
 
-            $backend = TelegramModel::query()->create($dbTlgParam);
+            $this->telegramRepository->create($dbTlgParam);
 
-            $reminder = ReminderModel::query()
-                ->where('user_id', $dbTlgParam['user_id'])
-                ->where('is_complete', false)
-                ->update([
+            $this->reminderRepository->withCriteria(new IsNotComplete(), new LatestFirst())
+                ->updateWhere('user_id', '=', $dbTlgParam['user_id'], [
                     'body' => $dbTlgParam['text']
                 ]);
 

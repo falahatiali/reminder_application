@@ -7,7 +7,10 @@ use App\DVO\Message\FromDVO;
 use App\DVO\Message\MessageDVO;
 use App\Helpers\Date;
 use App\Models\TelegramModel;
-use App\Models\User;
+use App\Repositories\Contracts\TelegramRepositoryInterface;
+use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Repositories\Eloquent\Criteria\IsNotFinish;
+use App\Repositories\Eloquent\Criteria\LatestFirst;
 use App\Service\BotCommands\Start;
 use App\Service\Contracts\CreateBotCommandsContract;
 use App\Service\DVO\CallbackQueryDVOService;
@@ -18,12 +21,14 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 class BotFactory
 {
-    public function __construct(private Request $request)
+    public function __construct(
+        private Request                     $request,
+        private TelegramRepositoryInterface $telegramRepository,
+        private UserRepositoryInterface     $userRepository)
     {
     }
 
@@ -108,10 +113,10 @@ class BotFactory
      */
     private function getLastTelegramObject($data): TelegramModel
     {
-        return TelegramModel::where('finish', false)
-            ->where('chat_id', $data['message']['chat']['id'])
-            ->whereDate('created_at', Carbon::today())
-            ->latest()
+        return $this->telegramRepository
+            ->withCriteria(new LatestFirst(), new IsNotFinish())
+            ->where('chat_id', '=', $data['message']['chat']['id'])
+            ->findWhere('created_at', '>=', Carbon::today())
             ->first();
     }
 
@@ -132,8 +137,8 @@ class BotFactory
 
     public function getUserDataId(int $chatId)
     {
-        return User::query()
-            ->where('telegram_id', $chatId)
+        return $this->userRepository
+            ->findWhere('telegram_id', '=', $chatId)
             ->first()
             ->id;
     }

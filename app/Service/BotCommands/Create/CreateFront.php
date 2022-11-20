@@ -2,12 +2,11 @@
 
 namespace App\Service\BotCommands\Create;
 
-use App\DVO\Message\CallBackQueryDVO;
 use App\DVO\Message\MessageDVO;
 use App\Helpers\SocialChannelContract;
-use App\Models\ReminderModel;
 use App\Models\TelegramModel;
-use App\Models\User;
+use App\Repositories\Contracts\ReminderRepositoryInterface;
+use App\Repositories\Contracts\TelegramRepositoryInterface;
 use App\Service\Contracts\CreateBotCommandsContract;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +14,11 @@ use Illuminate\Support\Facades\Log;
 
 class CreateFront implements CreateBotCommandsContract
 {
-    public function __construct(private SocialChannelContract $channel, private MessageDVO $message)
+    public function __construct(
+        private SocialChannelContract       $channel,
+        private MessageDVO                  $message,
+        private TelegramRepositoryInterface $telegramRepository,
+        private ReminderRepositoryInterface $reminderRepository)
     {
     }
 
@@ -52,10 +55,11 @@ class CreateFront implements CreateBotCommandsContract
 
         DB::beginTransaction();
         try {
-            $front = TelegramModel::query()->create($dbTlgParam);
-            $reminder = ReminderModel::query()->create($reminderFrontParam);
+            $this->telegramRepository->create($dbTlgParam);
+            $this->reminderRepository->create($reminderFrontParam);
             DB::commit();
             return $this->channel->call('sendMessage', $parameters);
+
         } catch (Exception $exception) {
             DB::rollBack();
             Log::error($exception->getMessage());

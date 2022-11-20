@@ -28,4 +28,14 @@ class TelegramModel extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeNotFinish($query)
+    {
+        return $query->where('finish', false);
+    }
+
+    public function scopeFinish($query)
+    {
+        return $query->where('finish', true);
+    }
 }

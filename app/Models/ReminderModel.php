@@ -47,4 +47,14 @@ class ReminderModel extends Model
     {
         return $query->where('active', true);
     }
+
+    public function scopeIsNotComplete($query)
+    {
+        return $query->where('is_complete', false);
+    }
+
+    public function scopeIsComplete($query)
+    {
+        return $query->where('is_complete', true);
+    }
 }
