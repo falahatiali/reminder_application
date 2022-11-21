@@ -2,6 +2,7 @@
 
 namespace App\Service\BotCommands\Create;
 
+use App\DVO\Message\CallBackQueryDVO;
 use App\DVO\Message\ChatDVO;
 use App\DVO\Message\FromDVO;
 use App\DVO\Message\MessageDVO;
@@ -45,66 +46,90 @@ class BotFactory
             $data = is_string($text) ? json_decode($text, true) : $text;
 
             if (Arr::has($data, 'message')) {
-                $chat = $data['message']['chat'];
-                $from = $data['message']['from'];
-
-                /** @var ChatDVO $chatDvo */
-                $chatDvo = app(ChatDVOService::class)->create($chat);
-                /** @var FromDVO $fromDvo */
-                $fromDvo = app(FromDVOService::class)->create($from);
-                /** @var MessageDVO $messageDvo */
-                $messageDvo = app(MessageDVOService::class)->create($fromDvo, $chatDvo, $data['message']);
-
-                if ($data['message']['text'] == '/start') {
-                    return app(Start::class, ['message' => $messageDvo]);
-                } else {
-                    $last = $this->getLastTelegramObject($data);
-                    $type = $this->getType($last);
-                    $messageDvo->setUserId($last->user_id);
-
-                    if ($type == 'front') {
-                        return app(CreateFront::class, ['message' => $messageDvo]);
-                    } elseif ($type == 'backend') {
-                        return app(CreateBackend::class, ['message' => $messageDvo]);
-                    } elseif ($type == 'body') {
-                        return app(CreateBody::class, ['message' => $messageDvo]);
-                    } elseif ($type == 'additional_text') {
-                        return app(CreateAdditionalText::class, ['message' => $messageDvo]);
-                    }
-                }
+                return $this->getMessageTypeObject($data);
             } elseif (Arr::has($data, 'callback_query')) {
-                $data = $data['callback_query'];
-                /** @var ChatDVO $chatDvo */
-                $chatDvo = app(ChatDVOService::class)->create($data['message']['chat']);
-                $fromDvo = app(FromDVOService::class)->create($data['message']['from']);
-                /** @var MessageDVO $messageDvo */
-                $messageDvo = app(MessageDVOService::class)->create($fromDvo, $chatDvo, $data['message']);
-                $messageDvo->setUserId($this->getUserDataId($chatDvo->getId()));
-
-                $callBackQueryDVO = app(CallbackQueryDVOService::class)->create(
-                    $data['id'], $fromDvo, $messageDvo, $data['message']['text'],
-                    $data['chat_instance'], $data['data'],
-                    $data['message']['reply_markup']);
-
-                if (isset($data['data'])) {
-                    if ($data['data'] === 'create_new_reminder') {
-                        return app(CreateNewReminder::class, ['message' => $callBackQueryDVO]);
-                    } elseif (Arr::exists(Date::frequencies(), $data['data'])) {
-                        if (1 == 2) {
-                            dd(1);
-                        } else {
-                            return app(CreateFrequency::class, ['data' => $callBackQueryDVO]);
-                        }
-
-                    }
-                }
+                return $this->getCallbackQueryObject($data);
             }
 
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
         }
 
+        /** TODO */
         throw new Exception('exception in making object');
+    }
+
+    /**
+     * @param mixed $data
+     * @return mixed
+     * @throws Exception
+     */
+    public function getMessageTypeObject(array $data): mixed
+    {
+        $chat = $data['message']['chat'];
+        $from = $data['message']['from'];
+
+        /** @var ChatDVO $chatDvo */
+        $chatDvo = app(ChatDVOService::class)->create($chat);
+        /** @var FromDVO $fromDvo */
+        $fromDvo = app(FromDVOService::class)->create($from);
+        /** @var MessageDVO $messageDvo */
+        $messageDvo = app(MessageDVOService::class)->create($fromDvo, $chatDvo, $data['message']);
+
+        if ($data['message']['text'] == '/start') {
+            return app(Start::class, ['message' => $messageDvo]);
+        } else {
+            $last = $this->getLastTelegramObject($data);
+            $type = $this->getType($last);
+            $messageDvo->setUserId($last->user_id);
+
+            if ($type == 'front') {
+                return app(CreateFront::class, ['message' => $messageDvo]);
+            } elseif ($type == 'backend') {
+                return app(CreateBackend::class, ['message' => $messageDvo]);
+            } elseif ($type == 'body') {
+                return app(CreateBody::class, ['message' => $messageDvo]);
+            } elseif ($type == 'additional_text') {
+                return app(CreateAdditionalText::class, ['message' => $messageDvo]);
+            }
+        }
+
+        /** TODO */
+        throw new Exception();
+    }
+
+    private function getCallbackQueryObject(array $data)
+    {
+        $data = $data['callback_query'];
+        /** @var ChatDVO $chatDvo */
+        $chatDvo = app(ChatDVOService::class)->create($data['message']['chat']);
+        /** @var FromDVO $fromDvo */
+        $fromDvo = app(FromDVOService::class)->create($data['message']['from']);
+        /** @var MessageDVO $messageDvo */
+        $messageDvo = app(MessageDVOService::class)->create($fromDvo, $chatDvo, $data['message']);
+        $messageDvo->setUserId($this->getUserDataId($chatDvo->getId()));
+
+        /** @var CallBackQueryDVO $callBackQueryDVO */
+        $callBackQueryDVO = app(CallbackQueryDVOService::class)->create(
+            $data['id'], $fromDvo, $messageDvo, $data['message']['text'],
+            $data['chat_instance'], $data['data'],
+            $data['message']['reply_markup']);
+
+        if (isset($data['data'])) {
+            if ($data['data'] === 'create_new_reminder') {
+                return app(CreateNewReminder::class, ['message' => $callBackQueryDVO]);
+            } elseif (Arr::exists(Date::frequencies(), $data['data'])) {
+                if (1 == 2) {
+                    dd(1);
+                } else {
+                    return app(CreateFrequency::class, ['data' => $callBackQueryDVO]);
+                }
+
+            }
+        }
+
+        /** TODO */
+        throw new Exception();
     }
 
     /**
