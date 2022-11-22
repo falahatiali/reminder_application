@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Service\BotCommands\Create\BotFactory;
+use App\Services\Telegram\Create\BotFactory;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

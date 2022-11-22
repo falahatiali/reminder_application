@@ -2,15 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Builders\Telegram\Chat\ChatBuilder;
 use App\Models\TelegramModel;
-use App\Repositories\Contracts\ReminderRepositoryInterface;
 use App\Repositories\Contracts\TelegramRepositoryInterface;
-use App\Repositories\Eloquent\Criteria\IsComplete;
-use App\Repositories\Eloquent\Criteria\IsNotComplete;
-use App\Repositories\Eloquent\Criteria\IsNotFinish;
-use App\Repositories\Eloquent\Criteria\LatestFirst;
-use App\Repositories\Eloquent\Criteria\Today;
-use Carbon\Carbon;
 
 class TestController extends Controller
 {
@@ -28,22 +22,19 @@ class TestController extends Controller
             'chat_type' => 'normal',
             'unix_timestamp' => time(),
             'text' => time() . 'test' . time(),
-            'telegram' => [],
+            'telegram' => ['key1' => 1, 'key2' => 2],
             'reminder_type' => 'backend',
             'user_id' => 1
         ];
+        $telegram = app(TelegramRepositoryInterface::class);
+        $telegram = $telegram->create($dbTlgParam);
 
-        $telegramRepository = app(TelegramRepositoryInterface::class);
+        $chat = (new ChatBuilder())
+            ->setId(1)
+            ->setUsername('test')
+            ->setFirstName('test')
+            ->build();
 
-//        TelegramModel::query()->dd();
-        $res = $telegramRepository
-            ->withCriteria(new LatestFirst(), new IsNotFinish())
-            ->where('chat_id', 1668964419)
-            ->findWhere('created_at', '>=', Carbon::today())
-            ->get()
-//            ->get()
-        ;
-
-        dd($res);
+        dd($chat->getUsername() , $telegram);
     }
 }
