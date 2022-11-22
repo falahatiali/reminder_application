@@ -14,7 +14,7 @@ class Chat
         return $this->id;
     }
 
-    public function setId(int $id): static
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -24,7 +24,7 @@ class Chat
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setFirstName(string $firstName): void
     {
         $this->firstName = $firstName;
     }
@@ -34,7 +34,7 @@ class Chat
         return $this->username;
     }
 
-    public function setUsername(string $username): static
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }
@@ -44,7 +44,7 @@ class Chat
         return $this->type;
     }
 
-    public function setType(string $type): static
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
