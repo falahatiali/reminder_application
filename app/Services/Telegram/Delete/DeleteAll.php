@@ -32,11 +32,12 @@ class DeleteAll implements DeleteCommandContract
                 ->findWhere('telegram_id', '=', $this->message->getChat()->getId())
                 ->first();
 
-            $reminders = $this->reminderRepository
+            $this->reminderRepository
                 ->findWhere('user_id', '=', $user->id)
-                ->get();
-
-            Log::error($reminders);
+                ->each(function ($reminder) {
+                    $reminder->delete();
+                    Log::info("Reminder number {$reminder->id} deleted successfully.");
+                });
 
             $parameters = [
                 'text' => $response,
