@@ -7,12 +7,12 @@ use App\Helpers\SocialChannelContract;
 use App\Models\TelegramModel;
 use App\Repositories\Contracts\ReminderRepositoryInterface;
 use App\Repositories\Contracts\TelegramRepositoryInterface;
-use App\Services\Contracts\CreateBotCommandsContract;
+use App\Services\Contracts\CreateBotCommandContract;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class CreateFront implements CreateBotCommandsContract
+class Front implements CreateBotCommandContract
 {
     public function __construct(
         private SocialChannelContract       $channel,
@@ -22,7 +22,7 @@ class CreateFront implements CreateBotCommandsContract
     {
     }
 
-    public function create()
+    public function action()
     {
         $response = "{$this->message->getChat()->getFirstName()}, You successfully set the word.🥰 Now create the back of the card. (meaning or description) 🤗";
 
@@ -63,7 +63,7 @@ class CreateFront implements CreateBotCommandsContract
 
         } catch (Exception $exception) {
             DB::rollBack();
-            Log::error($exception->getMessage());
+            Log::error($exception->getMessage() . ' - '. $exception->getFile() . ' - '. $exception->getLine());
             //todo throw exception
         }
     }

@@ -9,12 +9,12 @@ use App\Repositories\Contracts\ReminderRepositoryInterface;
 use App\Repositories\Contracts\TelegramRepositoryInterface;
 use App\Repositories\Eloquent\Criteria\IsNotComplete;
 use App\Repositories\Eloquent\Criteria\LatestFirst;
-use App\Services\Contracts\CreateBotCommandsContract;
+use App\Services\Contracts\CreateBotCommandContract;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class CreateAdditionalText implements CreateBotCommandsContract
+class AdditionalText implements CreateBotCommandContract
 {
     public function __construct(
         private Message                     $message,
@@ -24,7 +24,7 @@ class CreateAdditionalText implements CreateBotCommandsContract
     {
     }
 
-    public function create()
+    public function action()
     {
         $response = "{$this->message->getChat()->getFirstName()}, Ok. choose the frequency 🤗";
 
@@ -107,7 +107,7 @@ class CreateAdditionalText implements CreateBotCommandsContract
 
         } catch (Exception $exception) {
             DB::rollBack();
-            Log::error($exception->getMessage());
+            Log::error($exception->getMessage() . ' - '. $exception->getFile() . ' - '. $exception->getLine());
             //todo
         }
     }

@@ -28,7 +28,7 @@ class TelegramReminder implements SendMessageContract
 
     private function buildFormattedText(ReminderModel $reminder)
     {
-        $text = "<b>{$reminder->frontend}</b>, <strong>{$reminder->frontend}</strong>\n\n\n";
+        $text = "<b>{$reminder->frontend}</b>\n\n\n";
         $text .= "<b class='tg-spoiler'><span class='tg-spoiler'>{$reminder->backend}</span></b>\n\n\n";
 
         if (Str::length($reminder->body) > 0) {

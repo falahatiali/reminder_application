@@ -17,7 +17,7 @@ services:
         restart: unless-stopped
         depends_on:
             - backend
-            - redis
+#            - redis
         networks:
             - reminder_network
 
@@ -37,7 +37,7 @@ services:
         networks:
             - reminder_network
         depends_on:
-            - redis
+#            - redis
             - mysql
 
     scheduler:
@@ -51,42 +51,42 @@ services:
         networks:
             - reminder_network
         depends_on:
-            - redis
+#            - redis
             - backend
             - mysql
 
-    redis:
-        image: redis:alpine
-        container_name: redis
-        ports:
-            - '${FORWARD_REDIS_PORT:-6379}:6379'
-        volumes:
-            - 'reminder_redis_vol:/data'
-        restart: unless-stopped
-        networks:
-            - reminder_network
-        healthcheck:
-            test: [ "CMD", "redis-cli", "ping" ]
-
-    memcached:
-        image: memcached:alpine
-        container_name: memcached
-        ports:
-            - '11211:11211'
-        restart: unless-stopped
-        networks:
-            - reminder_network
-
-    meiliserach:
-        image: getmeili/meilisearch:latest
-        container_name: meiliserach
-        ports:
-            - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
-        volumes:
-            - 'reminder_meilisearch_vol:/data.ms'
-        restart: unless-stopped
-        networks:
-            - reminder_network
+#    redis:
+#        image: redis:alpine
+#        container_name: redis
+#        ports:
+#            - '${FORWARD_REDIS_PORT:-6379}:6379'
+#        volumes:
+#            - 'reminder_redis_vol:/data'
+#        restart: unless-stopped
+#        networks:
+#            - reminder_network
+#        healthcheck:
+#            test: [ "CMD", "redis-cli", "ping" ]
+#
+#    memcached:
+#        image: memcached:alpine
+#        container_name: memcached
+#        ports:
+#            - '11211:11211'
+#        restart: unless-stopped
+#        networks:
+#            - reminder_network
+#
+#    meiliserach:
+#        image: getmeili/meilisearch:latest
+#        container_name: meiliserach
+#        ports:
+#            - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
+#        volumes:
+#            - 'reminder_meilisearch_vol:/data.ms'
+#        restart: unless-stopped
+#        networks:
+#            - reminder_network
 
     mysql:
         image: 'mysql/mysql-server:8.0'
