@@ -1,0 +1,46 @@
+{
+    "update_id": 937368985,
+    "callback_query": {
+        "id": "8491552157410127728",
+        "from": {
+            "id": 1977093554,
+            "is_bot": false,
+            "first_name": "Fala",
+            "username": "alifala99",
+            "language_code": "en"
+        },
+        "message": {
+            "message_id": 6,
+            "from": {
+                "id": 5613989812,
+                "is_bot": true,
+                "first_name": "LocalhostTest",
+                "username": "reminderLocalBot"
+            },
+            "chat": {
+                "id": 1977093554,
+                "first_name": "Fala",
+                "username": "alifala99",
+                "type": "private"
+            },
+            "date": 1670522169,
+            "text": "Your welcome Fala!",
+            "reply_markup": {
+                "inline_keyboard": [
+                    [
+                        {
+                            "text": "Create a new reminder",
+                            "callback_data": "create_new_reminder"
+                        },
+                        {
+                            "text": "Get reminders list",
+                            "callback_data": "get_reminders_list"
+                        }
+                    ]
+                ]
+            }
+        },
+        "chat_instance": "-6616910167240561205",
+        "data": "create_new_reminder"
+    }
+}

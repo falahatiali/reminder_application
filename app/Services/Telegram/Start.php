@@ -6,12 +6,12 @@ use App\Builders\Telegram\Message\Message;
 use App\Helpers\SocialChannelContract;
 use App\Models\TelegramModel;
 use App\Models\User;
-use App\Services\Contracts\CreateBotCommandsContract;
+use App\Services\Contracts\BotCommandContract;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class Start implements CreateBotCommandsContract
+class Start implements BotCommandContract
 {
     public function __construct(
         private Message               $message,
@@ -19,7 +19,7 @@ class Start implements CreateBotCommandsContract
     {
     }
 
-    public function create()
+    public function action()
     {
         $response = "Your welcome {$this->message->getChat()->getFirstName()}! ";
 

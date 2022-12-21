@@ -1,0 +1,134 @@
+{
+    "update_id": 937368990,
+    "callback_query": {
+        "id": "8491552158722873968",
+        "from": {
+            "id": 1977093554,
+            "is_bot": false,
+            "first_name": "Fala",
+            "username": "alifala99",
+            "language_code": "en"
+        },
+        "message": {
+            "message_id": 15,
+            "from": {
+                "id": 5613989812,
+                "is_bot": true,
+                "first_name": "LocalhostTest",
+                "username": "reminderLocalBot"
+            },
+            "chat": {
+                "id": 1977093554,
+                "first_name": "Fala",
+                "username": "alifala99",
+                "type": "private"
+            },
+            "date": 1670522487,
+            "reply_to_message": {
+                "message_id": 14,
+                "from": {
+                    "id": 1977093554,
+                    "is_bot": false,
+                    "first_name": "Fala",
+                    "username": "alifala99",
+                    "language_code": "en"
+                },
+                "chat": {
+                    "id": 1977093554,
+                    "first_name": "Fala",
+                    "username": "alifala99",
+                    "type": "private"
+                },
+                "date": 1670522451,
+                "text": "this is extra text"
+            },
+            "text": "Fala, Ok. choose the frequency 🤗",
+            "reply_markup": {
+                "inline_keyboard": [
+                    [
+                        {
+                            "text": "Every Minute",
+                            "callback_data": "everyMinute"
+                        },
+                        {
+                            "text": "Every Two Minutes",
+                            "callback_data": "everyTwoMinutes"
+                        }
+                    ],
+                    [
+                        {
+                            "text": "Every Three Minutes",
+                            "callback_data": "everyThreeMinutes"
+                        },
+                        {
+                            "text": "Every Four Minutes",
+                            "callback_data": "everyFourMinutes"
+                        }
+                    ],
+                    [
+                        {
+                            "text": "Every Five Minutes",
+                            "callback_data": "everyFiveMinutes"
+                        },
+                        {
+                            "text": "Every Fifteen Minutes",
+                            "callback_data": "everyFifteenMinutes"
+                        }
+                    ],
+                    [
+                        {
+                            "text": "Every Thirty Minutes",
+                            "callback_data": "everyThirtyMinutes"
+                        },
+                        {
+                            "text": "Every Two Hours",
+                            "callback_data": "everyTwoHours"
+                        }
+                    ],
+                    [
+                        {
+                            "text": "Every Three Hours",
+                            "callback_data": "everyThreeHours"
+                        },
+                        {
+                            "text": "Every Four Hours",
+                            "callback_data": "everyFourHours"
+                        }
+                    ],
+                    [
+                        {
+                            "text": "Every Six Hours",
+                            "callback_data": "everySixHours"
+                        },
+                        {
+                            "text": "Every hour",
+                            "callback_data": "hourly"
+                        }
+                    ],
+                    [
+                        {
+                            "text": "Every day",
+                            "callback_data": "daily"
+                        },
+                        {
+                            "text": "Every week",
+                            "callback_data": "weekly"
+                        }
+                    ],
+                    [
+                        {
+                            "text": "Every month",
+                            "callback_data": "monthly"
+                        },
+                        {
+                            "text": "Every year",
+                            "callback_data": "yearly"
+                        }
+                    ]
+                ]
+            }
+        },
+        "chat_instance": "-6616910167240561205",
+        "data": "everyFiveMinutes"
+    }
+}

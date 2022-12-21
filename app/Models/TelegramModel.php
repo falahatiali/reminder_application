@@ -15,6 +15,13 @@ class TelegramModel extends Model
         'MESSAGE' => 'message'
     ];
 
+    public const REMINDER_TYPE = [
+        'create_new' => 'front',
+        'front' => 'backend',
+        'backend' => 'body',
+        'body' => 'additional_text',
+        'additional_text' => 'frequency'
+    ];
     protected $guarded = [];
 
     protected $casts = [

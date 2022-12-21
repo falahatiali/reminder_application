@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<ReminderModel>
  */
-class ReminderFactory extends Factory
+class ReminderModelFactory extends Factory
 {
+    protected $model = ReminderModel::class;
+
     /**
      * Define the model's default state.
      *
@@ -26,14 +28,13 @@ class ReminderFactory extends Factory
             'reminder_type' => fake()->sentence(1),
             'frequency' => 'EveryMinute',
             'day' => 12,
-            'date' => '',
+            'date' => random_int(1, 31),
             'time' => '12:12',
             'expression' => '* * * * *',
             'run_once' => 1,
             'active' => 1,
             'is_complete' => 1,
-            'user_id' => User::factory()->create()->id,
-            'category_id' => '',
+            'user_id' => User::factory()->create()->id
         ];
     }
 }

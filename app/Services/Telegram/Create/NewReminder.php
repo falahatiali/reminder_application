@@ -6,12 +6,12 @@ use App\Builders\Telegram\Query\Query;
 use App\Helpers\SocialChannelContract;
 use App\Models\TelegramModel;
 use App\Repositories\Contracts\UserRepositoryInterface;
-use App\Services\Contracts\CreateBotCommandsContract;
+use App\Services\Contracts\CreateBotCommandContract;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class CreateNewReminder implements CreateBotCommandsContract
+class NewReminder implements CreateBotCommandContract
 {
     public function __construct(
         private SocialChannelContract   $channel,
@@ -20,7 +20,7 @@ class CreateNewReminder implements CreateBotCommandsContract
     {
     }
 
-    public function create()
+    public function action()
     {
         $response = "{$this->message->getMessage()->getChat()->getFirstName()}, Please send your word!";
 
@@ -61,7 +61,7 @@ class CreateNewReminder implements CreateBotCommandsContract
             return $this->channel->call('sendMessage', $parameters);
         } catch (Exception $exception) {
             DB::rollBack();
-            Log::error($exception->getMessage());
+            Log::error($exception->getMessage() . ' - '. $exception->getFile() . ' - '. $exception->getLine());
             // todo - return exception
         }
     }

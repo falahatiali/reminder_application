@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
-interface ReminderRepositoryInterface
+interface ReminderRepositoryInterface extends RepositoryInterface
 {
 
 }

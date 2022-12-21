@@ -9,29 +9,30 @@ use App\Repositories\Contracts\ReminderRepositoryInterface;
 use App\Repositories\Contracts\TelegramRepositoryInterface;
 use App\Repositories\Eloquent\Criteria\IsNotComplete;
 use App\Repositories\Eloquent\Criteria\LatestFirst;
-use App\Services\Contracts\CreateBotCommandsContract;
+use App\Services\Contracts\CreateBotCommandContract;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class CreateBody implements CreateBotCommandsContract
+class Backend implements CreateBotCommandContract
 {
     public function __construct(
-        private Message                     $message,
+        private Message                  $message,
         private SocialChannelContract       $channel,
         private TelegramRepositoryInterface $telegramRepository,
         private ReminderRepositoryInterface $reminderRepository)
     {
+
     }
 
-    public function create()
+    public function action()
     {
-        $response = "{$this->message->getChat()->getFirstName()}, Ok. please add extra text if you have 🤗";
+        $response = "{$this->message->getChat()->getFirstName()}, Ok. your 2 side of your card is now successfully created. please add a body 🤗";
 
         $parameters = [
             'text' => $response,
             'chat_id' => $this->message->getChat()->getId(),
-            'reply_to_message_id' => $this->message->getMessageId(),
+            'reply_to_message_id' => $this->message->getMessageId()
         ];
 
         DB::beginTransaction();
@@ -50,7 +51,7 @@ class CreateBody implements CreateBotCommandsContract
                 'unix_timestamp' => $this->message->getDate(),
                 'text' => $this->message->getText(),
                 'telegram' => $this->message->toArray(),
-                'reminder_type' => 'body',
+                'reminder_type' => 'backend',
                 'user_id' => $this->message->getUserId()
             ];
 
@@ -58,7 +59,7 @@ class CreateBody implements CreateBotCommandsContract
 
             $this->reminderRepository->withCriteria(new IsNotComplete(), new LatestFirst())
                 ->updateWhere('user_id', '=', $dbTlgParam['user_id'], [
-                    'body' => $dbTlgParam['text']
+                    'backend' => $dbTlgParam['text']
                 ]);
 
             DB::commit();
@@ -67,7 +68,7 @@ class CreateBody implements CreateBotCommandsContract
 
         } catch (Exception $exception) {
             DB::rollBack();
-            Log::error($exception->getMessage());
+            Log::error($exception->getMessage() . ' - '. $exception->getFile() . ' - '. $exception->getLine());
             //todo
         }
     }

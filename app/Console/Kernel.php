@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('log:empty')->everyThreeHours();
+
         Log::error("****************** Start cron job processing ************************ ");
         User::query()->with('reminders')->each(function ($user) use ($schedule) {
             $user->reminders()->active()->each(function ($reminder) use ($user, $schedule) {

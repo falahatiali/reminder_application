@@ -1,0 +1,28 @@
+{
+    "update_id": 937368984,
+    "message": {
+        "message_id": 5,
+        "from": {
+            "id": 1977093554,
+            "is_bot": false,
+            "first_name": "Fala",
+            "username": "alifala99",
+            "language_code": "en"
+        },
+        "chat": {
+            "id": 1977093554,
+            "first_name": "Fala",
+            "username": "alifala99",
+            "type": "private"
+        },
+        "date": 1670520121,
+        "text": "/start",
+        "entities": [
+            {
+                "offset": 0,
+                "length": 6,
+                "type": "bot_command"
+            }
+        ]
+    }
+}
