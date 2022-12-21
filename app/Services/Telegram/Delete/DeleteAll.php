@@ -4,11 +4,8 @@ namespace App\Services\Telegram\Delete;
 
 use App\Builders\Telegram\Message\Message;
 use App\Helpers\SocialChannelContract;
-use App\Models\TelegramModel;
 use App\Repositories\Contracts\ReminderRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
-use App\Repositories\Eloquent\Criteria\IsNotComplete;
-use App\Repositories\Eloquent\Criteria\LatestFirst;
 use App\Services\Contracts\DeleteCommandContract;
 use Exception;
 use Illuminate\Support\Facades\DB;

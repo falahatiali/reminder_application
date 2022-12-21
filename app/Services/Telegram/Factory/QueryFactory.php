@@ -10,8 +10,10 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Services\Contracts\BotCommandContract;
 use App\Services\Telegram\Create\Frequency;
 use App\Services\Telegram\Create\NewReminder;
+use App\Services\Telegram\Delete\DeleteReminder;
 use Exception;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 class QueryFactory extends Builders
 {
@@ -33,8 +35,11 @@ class QueryFactory extends Builders
         $callBackQueryDVO = $this->getQueryDvo($query, $fromDvo, $messageDvo);
 
         if (isset($query['data'])) {
-            if ($query['data'] === 'create_new_reminder') {
-                return app(NewReminder::class, ['message' => $callBackQueryDVO]);
+            if (array_key_exists($query['data'], config('mappings'))) {
+
+                $className = config("mappings.{$query['data']}.class");
+                return app($className, ['message' => $callBackQueryDVO]);
+
             } elseif (Arr::exists(Date::frequencies(), $query['data'])) {
                 if (1 == 2) {
                     dd(1);
