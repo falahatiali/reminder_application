@@ -20,7 +20,11 @@ class TelegramModel extends Model
         'front' => 'backend',
         'backend' => 'body',
         'body' => 'additional_text',
-        'additional_text' => 'frequency'
+        'additional_text' => 'frequency',
+        'daily' => 'daily',
+        'weekly' => 'weekly',
+        'monthly' => 'monthly',
+        'yearly' => 'yearly',
     ];
     protected $guarded = [];
 

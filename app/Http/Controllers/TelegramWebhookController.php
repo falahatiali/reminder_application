@@ -21,7 +21,7 @@ class TelegramWebhookController extends Controller
             $object = $botCommandFactory->makeObject();
             return $object->action();
         } catch (Exception $e) {
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . ' FILE = ' . $e->getFile() . ' LINE =' . $e->getLine());
             return null;
         }
     }
