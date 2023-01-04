@@ -20,9 +20,9 @@ class Telegram implements SocialChannelContract
         $response = Http::post($url, $parameters);
 
         /** TODO for debugging */
-        Log::error('*******************************************');
-        Log::error($response->body());
-        Log::error('********************************************');
+//        Log::error('*******************************************');
+//        Log::error($response->body());
+//        Log::error('********************************************');
 
         return $response;
     }

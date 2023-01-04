@@ -27,7 +27,6 @@ class Start implements BotCommandContract
             'inline_keyboard' => [
                 [
                     ['text' => 'Create a new reminder', 'callback_data' => 'create_new_reminder'],
-                    ['text' => 'Get reminders list', 'callback_data' => 'get_reminders_list'],
                 ]
             ]
         ];

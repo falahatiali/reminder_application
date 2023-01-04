@@ -41,7 +41,12 @@ return new class extends Migration {
                 'additional_text',
                 'frequency',
                 'general',
-                'old'
+                'old',
+                'daily',
+                'hourly',
+                'weekly',
+                'monthly',
+                'yearly',
             ])->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Builders\Telegram\Chat\ChatBuilder;
+use App\Helpers\SocialChannelContract;
 use App\Models\TelegramModel;
+use App\Repositories\Contracts\ReminderRepositoryInterface;
 use App\Repositories\Contracts\TelegramRepositoryInterface;
+use App\Repositories\Eloquent\Criteria\IsNotComplete;
+use App\Repositories\Eloquent\Criteria\LatestFirst;
 
 class TestController extends Controller
 {
@@ -26,15 +30,26 @@ class TestController extends Controller
             'reminder_type' => 'backend',
             'user_id' => 1
         ];
-        $telegram = app(TelegramRepositoryInterface::class);
-        $telegram = $telegram->create($dbTlgParam);
 
-        $chat = (new ChatBuilder())
-            ->setId(1)
-            ->setUsername('test')
-            ->setFirstName('test')
-            ->build();
+        /** @var ReminderRepositoryInterface $reminderRepo */
+        $reminderRepo = app(ReminderRepositoryInterface::class);
 
-        dd($chat->getUsername() , $telegram);
+        $re = $reminderRepo->withCriteria(new IsNotComplete(), new LatestFirst())
+        ->findWhere('user_id' , '=' , 1)
+        ->update([
+            'day' => 13
+        ]);
+
+
+        dd($re);
+//
+//        $social = app(SocialChannelContract::class);
+//        $parameters = [
+//            'chat_id' => 1977093554,
+//            'text' => time(),
+//            'parse_mode' => 'HTML',
+//        ];
+//
+//        return $social->call('sendMessage', $parameters)->body();
     }
 }
