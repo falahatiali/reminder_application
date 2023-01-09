@@ -121,9 +121,11 @@ class FrequencyDaily implements CreateBotCommandContract
                     $expression[2] = $dayInMonth;
                 }
 
-                $mon = explode(' ', $existingExpression)[3];
-                if (is_numeric($mon)) {
-                    $expression[3] = $mon;
+                if ($existingExpression) {
+                    $mon = explode(' ', $existingExpression)[3];
+                    if (is_numeric($mon)) {
+                        $expression[3] = $mon;
+                    }
                 }
 
                 $expression = implode(' ', $expression);
