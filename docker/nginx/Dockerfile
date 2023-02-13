@@ -6,9 +6,6 @@ ARG NGINXUSER
 ENV NGINXGROUP=${NGINXGROUP}
 ENV NGINXUSER=${NGINXUSER}
 
-EXPOSE 80
-EXPOSE 443
-
 RUN sed -i "s/user www-data/user ${NGINXUSER}/g" /etc/nginx/nginx.conf
 
 ADD default.conf /etc/nginx/conf.d/
