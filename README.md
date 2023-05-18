@@ -1,8 +1,6 @@
-<center><h1> Easy Reminder </h1></center>
-
+<center><h1> Easy Reminder Bot for Telegram </h1></center>
 ---
-
-## About this project. EasyReminder
+## About EasyReminder
 I have created a Telegram bot for reminders. The main purpose of this bot is to help me with personal or work-related tasks by sending reminders. One of my initial goals was to develop a flashcard system, where I could practice language learning by storing and reviewing vocabulary words and phrases.
 
 The bot serves as a convenient tool for managing and organizing reminders. It allows me to set specific dates and times for reminders, ensuring that I stay on top of important tasks and deadlines. Additionally, it has the ability to send recurring reminders at specified intervals, such as daily, weekly, or monthly.
