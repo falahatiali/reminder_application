@@ -21,32 +21,42 @@ click on the link that introduce on description or in Telegram search for @easyr
 2 -  click on start. 
 <img width="1721" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/cc14b20f-f2b6-4cc1-a7ec-60298a2ffd91">. 
 
+--- 
 
 3 - click on 'Create a new reminder' button. 
 <img width="1079" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/4aa89fb2-6ffa-4437-bbb5-691f15e33afa">. 
 
+---
 
 4 - For this example you can insert 4 different data. 
  Front = The front of a card ( or the title of your reminder - for example you want learn a vocab like 'Prudence', so type Prudence).  
  <img width="1013" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/b830fe68-047e-407f-9ab7-499020d8f602">. 
 
+--- 
+
  Back  = The back of the card. ( the meaning of the vocab, in our example it would be sth like 'the quality of being prudent; cautiousness'). 
  
+---
+
  Body  = You can define a body for it. for example a description or you can leave it empty and just enter a point. ( you have to enter sth ). 
  <img width="1013" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/3c054801-e8ac-424c-bb85-d45ba3e10e55">. 
 
+---
 
  Additional descrtion = An additional description. it can be something like Synonyms. you can also type a point for leaving it empty.  
  <img width="1176" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/5f9d7f20-98f2-4898-ab21-661382d1b13f">. 
 
+---
+
 5 - In this step you should determine the frequncy. You have to say how do you like reminder behaves. There are many predefined frequncies that you can select.
 <img width="512" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/0b2f9e14-7907-41a8-967e-11d901fdad13">. 
+
+---
 
 Some frequencies have their own parameters. for example if you select monthly it asks you the day of week and the hour and minute.   
 you can work test them to see their usages.  
 I selected hourly and it finished.  
 <img width="1160" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/2288f038-8ec2-4240-9aa0-5798da33f23c">. 
-
 
 
 # Contribution
