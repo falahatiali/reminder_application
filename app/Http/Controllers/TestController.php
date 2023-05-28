@@ -9,6 +9,7 @@ use App\Repositories\Contracts\ReminderRepositoryInterface;
 use App\Repositories\Contracts\TelegramRepositoryInterface;
 use App\Repositories\Eloquent\Criteria\IsNotComplete;
 use App\Repositories\Eloquent\Criteria\LatestFirst;
+use Illuminate\Support\Facades\Http;
 
 class TestController extends Controller
 {
@@ -31,25 +32,23 @@ class TestController extends Controller
             'user_id' => 1
         ];
 
-        /** @var ReminderRepositoryInterface $reminderRepo */
-        $reminderRepo = app(ReminderRepositoryInterface::class);
+        $client = Http::withToken(env('OPENAI_SECRET'))
+            ->withHeaders([
+                'Content-Type' => 'application/json',
+            ])->post('https://api.openai.com/v1/completions', [
+                "model" => "text-davinci-003",
+                "prompt" => "The following is a conversation with an AI assistant.
+                The assistant is helpful, creative, clever, and very friendly.\n\nHuman:
+                Hello, who are you?\nAI: I am an AI created by OpenAI. How can I help you today
+                ?\nHuman: I'd like to cancel my subscription.\nAI:",
+                "temperature" => 0.9,
+                "max_tokens" => 150,
+                "top_p" => 1,
+                "frequency_penalty" => 0.0,
+                "presence_penalty" => 0.6,
+                "stop" => [" Human:", " AI:"]
+            ]);
 
-        $re = $reminderRepo->withCriteria(new IsNotComplete(), new LatestFirst())
-        ->findWhere('user_id' , '=' , 1)
-        ->update([
-            'day' => 13
-        ]);
-
-
-        dd($re);
-//
-//        $social = app(SocialChannelContract::class);
-//        $parameters = [
-//            'chat_id' => 1977093554,
-//            'text' => time(),
-//            'parse_mode' => 'HTML',
-//        ];
-//
-//        return $social->call('sendMessage', $parameters)->body();
+        dd($client->body());
     }
 }
