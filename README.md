@@ -1,4 +1,8 @@
-<center><h1> Easy Reminder Bot for Telegram </h1></center>
+<center><h1> Easy Reminder Bot for Telegram </h1></center>.  
+
+Reminder everything in this form.  
+
+<img width="539" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/1297afb0-13e3-4419-8f58-8191208cbded">
 
 ---
 
