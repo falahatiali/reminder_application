@@ -19,12 +19,12 @@ In summary, this Telegram bot serves as a reliable and versatile reminder tool, 
 
 
 2. Click on the "Start" button. 
-<img width="1721" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/cc14b20f-f2b6-4cc1-a7ec-60298a2ffd91">. 
+<img width="1721" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/cc14b20f-f2b6-4cc1-a7ec-60298a2ffd91">
 
 --- 
 
 3. Click on the "Create a new reminder" button. 
-<img width="1079" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/4aa89fb2-6ffa-4437-bbb5-691f15e33afa">. 
+<img width="1079" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/4aa89fb2-6ffa-4437-bbb5-691f15e33afa">
 
 ---
 
@@ -57,7 +57,7 @@ In summary, this Telegram bot serves as a reliable and versatile reminder tool, 
 ---
 
 I selected hourly and it finished.  
-<img width="1160" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/2288f038-8ec2-4240-9aa0-5798da33f23c">. 
+<img width="1160" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/2288f038-8ec2-4240-9aa0-5798da33f23c">
 
 
 # Contribution
