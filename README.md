@@ -1,63 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<center><h1> Easy Reminder Bot for Telegram </h1></center>.  
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Reminder everything in this form.  
 
-## About Laravel
+<img width="539" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/1297afb0-13e3-4419-8f58-8191208cbded">
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## About EasyReminder
+I have created a Telegram bot for reminders. The main purpose of this bot is to help me with personal or work-related tasks by sending reminders. One of my initial goals was to develop a flashcard system, where I could practice language learning by storing and reviewing vocabulary words and phrases.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The bot serves as a convenient tool for managing and organizing reminders. It allows me to set specific dates and times for reminders, ensuring that I stay on top of important tasks and deadlines. Additionally, it has the ability to send recurring reminders at specified intervals, such as daily, weekly, or monthly.
 
-## Learning Laravel
+One of the standout features of the bot is the integrated flashcard system. I have designed it to facilitate language learning by allowing me to input new words or phrases along with their translations or meanings. The bot will then present these flashcards to me at regular intervals using a spaced repetition algorithm, optimizing the learning process and improving long-term retention.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+The user interface of the bot is intuitive and user-friendly. It provides commands and prompts that allow me to easily add, manage, and review flashcards, as well as set up and modify reminders. The bot also has a flexible notification system, ensuring that I receive reminders in a timely manner through Telegram messages or push notifications.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+In summary, this Telegram bot serves as a reliable and versatile reminder tool, incorporating a well-designed flashcard system for language learning purposes. It simplifies the process of organizing tasks and aids in language retention through regular flashcard reviews.
 
-## Laravel Sponsors
+## Usage Instructions
+1. Just follow these steps:   
+   - Click on the link provided in the project description or in Telegram, search for the username `@easyreminds_bot`, and select the bot.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
+2. Click on the "Start" button. 
+<img width="1721" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/cc14b20f-f2b6-4cc1-a7ec-60298a2ffd91">
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+--- 
 
-## Contributing
+3. Click on the "Create a new reminder" button. 
+<img width="1079" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/4aa89fb2-6ffa-4437-bbb5-691f15e33afa">
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+4. You can insert 4 different data.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+   -  **Front** The front of a card ( or the title of your reminder. For example, if you want to learn a vocabulary word like "Prudence", enter "Prudence".)  
+ <img width="1013" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/b830fe68-047e-407f-9ab7-499020d8f602">
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+--- 
+
+   - **Back**: The back of the card. (the meaning of the vocab, For example, enter "The quality of being prudent; cautiousness"). 
+ 
+---
+
+   - **Body**: You can define a body for the reminder, such as a description. You can leave it empty and just enter a point.
+ <img width="1013" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/3c054801-e8ac-424c-bb85-d45ba3e10e55">
+
+---
+
+   - **Additional Description**: An additional description, such as synonyms. You can also type a point to leave it empty.
+ <img width="1176" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/5f9d7f20-98f2-4898-ab21-661382d1b13f">
+
+---
+
+5. In this step, you should determine the frequency. Choose from the predefined frequencies that best suit your needs.
+   - Some frequencies may have their own parameters. For example, if you select "Monthly", you will be prompted to specify the day of the week, hour, and minute.
+<img width="512" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/0b2f9e14-7907-41a8-967e-11d901fdad13">
+
+---
+
+I selected hourly and it finished.  
+<img width="1160" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/2288f038-8ec2-4240-9aa0-5798da33f23c">
+
+
+# Contribution
+
+To further enhance the project, I am looking for collaborators who can contribute to code refactoring and testing. Code refactoring involves improving the existing codebase for better readability, maintainability, and performance. Collaborators with expertise in writing tests can help develop a comprehensive testing strategy, including unit tests, integration tests, and end-to-end tests, to ensure the reliability and functionality of the bot.
+
+If you're interested in collaborating on this project, please feel free to review the codebase, provide your insights and suggestions, and contribute to the code refactoring and testing efforts. Your expertise and contributions will greatly benefit the project's quality and success.
+
+Please note that while collaboration is encouraged, it is important to conduct thorough code reviews and maintain good coding practices to ensure the reliability and security of the project.
+
+
+
+
+
 
 ## License
 
