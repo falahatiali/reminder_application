@@ -2,8 +2,6 @@
 
 Reminder everything in this form.  
 
-<img width="539" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/1297afb0-13e3-4419-8f58-8191208cbded">
-
 ![image](https://github.com/falahatiali/reminder_application/assets/17930523/15c1429b-483a-4577-b28d-dbe3e190b335)
 
 ---
@@ -25,12 +23,14 @@ In summary, this Telegram bot serves as a reliable and versatile reminder tool, 
 
 
 2. Click on the "Start" button. 
-<img width="1721" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/cc14b20f-f2b6-4cc1-a7ec-60298a2ffd91">
+![image](https://github.com/falahatiali/reminder_application/assets/17930523/a2280bf5-eb7d-407f-9a57-deb8a5f7cb2f)
+
 
 --- 
 
 3. Click on the "Create a new reminder" button. 
-<img width="1079" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/4aa89fb2-6ffa-4437-bbb5-691f15e33afa">
+![image](https://github.com/falahatiali/reminder_application/assets/17930523/184bacc0-e94e-438a-8df6-b9ef8a58d6fe)
+
 
 ---
 
@@ -38,7 +38,8 @@ In summary, this Telegram bot serves as a reliable and versatile reminder tool, 
 
 
    -  **Front** The front of a card ( or the title of your reminder. For example, if you want to learn a vocabulary word like "Prudence", enter "Prudence".)  
- <img width="1013" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/b830fe68-047e-407f-9ab7-499020d8f602">
+![image](https://github.com/falahatiali/reminder_application/assets/17930523/083988a1-91ce-45fd-ab21-220a00bcfab1)
+
 
 --- 
 
@@ -47,23 +48,27 @@ In summary, this Telegram bot serves as a reliable and versatile reminder tool, 
 ---
 
    - **Body**: You can define a body for the reminder, such as a description. You can leave it empty and just enter a point.
- <img width="1013" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/3c054801-e8ac-424c-bb85-d45ba3e10e55">
+![image](https://github.com/falahatiali/reminder_application/assets/17930523/c2f56ed4-3845-4e38-abce-69c303f2567a)
+
 
 ---
 
    - **Additional Description**: An additional description, such as synonyms. You can also type a point to leave it empty.
- <img width="1176" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/5f9d7f20-98f2-4898-ab21-661382d1b13f">
+![Uploading image.png…]()
+
 
 ---
 
 5. In this step, you should determine the frequency. Choose from the predefined frequencies that best suit your needs.
    - Some frequencies may have their own parameters. For example, if you select "Monthly", you will be prompted to specify the day of the week, hour, and minute.
-<img width="512" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/0b2f9e14-7907-41a8-967e-11d901fdad13">
+![Uploading image.png…]()
+
 
 ---
 
 I selected hourly and it finished.  
-<img width="1160" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/2288f038-8ec2-4240-9aa0-5798da33f23c">
+![Uploading image.png…]()
+
 
 
 # Contribution
