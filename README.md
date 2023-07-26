@@ -4,6 +4,8 @@ Reminder everything in this form.
 
 <img width="539" alt="image" src="https://github.com/falahatiali/reminder_application/assets/17930523/1297afb0-13e3-4419-8f58-8191208cbded">
 
+![image](https://github.com/falahatiali/reminder_application/assets/17930523/15c1429b-483a-4577-b28d-dbe3e190b335)
+
 ---
 
 ## About EasyReminder
