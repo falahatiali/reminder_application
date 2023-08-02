@@ -54,20 +54,20 @@ In summary, this Telegram bot serves as a reliable and versatile reminder tool, 
 ---
 
    - **Additional Description**: An additional description, such as synonyms. You can also type a point to leave it empty.
-![Uploading image.png…]()
+![image](https://github.com/falahatiali/reminder_application/assets/17930523/7b829f74-c83a-4374-baca-26a3a2d6b48f)
 
 
 ---
 
 5. In this step, you should determine the frequency. Choose from the predefined frequencies that best suit your needs.
    - Some frequencies may have their own parameters. For example, if you select "Monthly", you will be prompted to specify the day of the week, hour, and minute.
-![Uploading image.png…]()
-
+![image](https://github.com/falahatiali/reminder_application/assets/17930523/b116678b-d815-4595-b790-bd5535c1886d)
 
 ---
 
 I selected hourly and it finished.  
-![Uploading image.png…]()
+
+![image](https://github.com/falahatiali/reminder_application/assets/17930523/45336c8c-1960-4b48-883f-c6b0eba2a649)
 
 
 
